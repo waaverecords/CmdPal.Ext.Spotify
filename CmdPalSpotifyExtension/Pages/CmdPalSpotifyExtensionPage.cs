@@ -21,7 +21,7 @@ internal sealed partial class CmdPalSpotifyExtensionPage : ListPage
                 Details = new Details() {
                     Title = "title test",
                     Body = "body test",
-                    Metadata = [`
+                    Metadata = [
                         new DetailsElement() { 
                             Key = "testkey",
                             Data = new DetailsCommand() {

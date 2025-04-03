@@ -29,11 +29,6 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
-	<!--
-	Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-	Tools extension to be activated for this project even if the Windows App SDK Nuget
-	package has not yet been restored.
-	-->
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
 	</ItemGroup>
@@ -42,15 +37,12 @@
 		<PackageReference Include="Microsoft.Windows.CsWinRT" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" />
 		<PackageReference Include="Microsoft.Web.WebView2" />
+		<PackageReference Include="SpotifyAPI.Web" />
+		<PackageReference Include="SpotifyAPI.Web.Auth" />
 		<PackageReference Include="System.Text.Json" />
 		<PackageReference Include="Shmuelie.WinRTServer" />
 	</ItemGroup>
 
-	<!--
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if
-    the Windows App SDK Nuget package has not yet been restored.
-	-->
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
 	</PropertyGroup>
@@ -59,10 +51,13 @@
 		<IsAotCompatible>true</IsAotCompatible>
 		<CsWinRTAotOptimizerEnabled>true</CsWinRTAotOptimizerEnabled>
 		<CsWinRTAotWarningLevel>2</CsWinRTAotWarningLevel>
-		<!-- Suppress DynamicallyAccessedMemberTypes.PublicParameterlessConstructor in fallback code path of Windows SDK projection -->
 		<WarningsNotAsErrors>IL2081</WarningsNotAsErrors>
 
 		<PublishTrimmed>true</PublishTrimmed>
 		<PublishSingleFile>true</PublishSingleFile>
 	</PropertyGroup>
+
+	<Target Name="PreBuild" BeforeTargets="BeforeBuild">
+		<Exec Command="GenerateResourcesDesigner.bat" />
+	</Target>
 </Project>
