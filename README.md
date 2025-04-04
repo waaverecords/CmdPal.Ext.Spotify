@@ -1,0 +1,2 @@
+# CmdPalSpotifyExtension
+Coming soon
