@@ -106,7 +106,7 @@ namespace CmdPalSpotifyExtension.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login to authorize the use of the Spotify API.
+        ///   Looks up a localized string similar to Login to authorize the extension to use the Spotify API.
         /// </summary>
         internal static string ResultLoginSubTitle {
             get {
@@ -115,7 +115,7 @@ namespace CmdPalSpotifyExtension.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spotify - Login.
+        ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string ResultLoginTitle {
             get {
