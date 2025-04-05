@@ -1,2 +1,2 @@
-# CmdPalSpotifyExtension
-Coming soon
+# CmdPal.Ext.Spotify
+// TODO

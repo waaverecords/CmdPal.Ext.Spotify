@@ -1,3 +1,4 @@
+using CmdPal.Ext.Spotify.Commands;
 using CmdPal.Ext.Spotify.Helpers;
 using CmdPal.Ext.Spotify.Properties;
 using Microsoft.CommandPalette.Extensions;
@@ -98,55 +99,55 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         return new SpotifyClient(config);
     }
 
-    private static List<ListItem> GetPlayertItems()
+    private List<ListItem> GetPlayertItems()
     {
         return [
-            new ListItem(new NoOpCommand()) // TODO: TogglePlaybackCommand
+            new ListItem(new TogglePlaybackCommand(_spotifyClient))
             {
                 Title = Resources.ResultTogglePlaybackTitle,
                 Icon = Icons.PlayPause,
             },
-            new ListItem(new NoOpCommand()) // TODO: PausePlaybackCommand
+            new ListItem(new PausePlaybackCommand(_spotifyClient))
             {
                 Title = Resources.ResultPausePlaybackTitle,
                 Icon = Icons.Pause,
             },
-            new ListItem(new NoOpCommand()) // TODO: ResumePlaybackCommand
+            new ListItem(new ResumePlaybackCommand(_spotifyClient))
             {
                 Title = Resources.ResultResumePlaybackTitle,
                 Icon = Icons.Play,
             },
-            new ListItem(new NoOpCommand()) // TODO: SkipNextCommand
+            new ListItem(new SkipNextCommand(_spotifyClient))
             {
                 Title = Resources.ResultNextTrackTitle,
                 Icon = Icons.Next,
             },
-            new ListItem(new NoOpCommand()) // TODO: SkipPreviousCommand
+            new ListItem(new SkipPreviousCommand(_spotifyClient))
             {
                 Title = Resources.ResultPreviousTrackTitle,
                 Icon = Icons.Previous,
             },
-            new ListItem(new NoOpCommand()) // TODO: TurnOnShuffleCommand
+            new ListItem(new SetShuffleCommand(_spotifyClient, new(true)))
             {
                 Title = Resources.ResultTurnOnShuffleTitle,
                 Icon = Icons.Shuffle,
             },
-            new ListItem(new NoOpCommand()) // TODO: TurnOffShuffleCommand
+            new ListItem(new SetShuffleCommand(_spotifyClient, new(false)))
             {
                 Title = Resources.ResultTurnOffShuffleTitle,
                 Icon = Icons.Shuffle,
             },
-            new ListItem(new NoOpCommand()) // TODO: SetRepeatTrackShuffleCommand
+            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)))
             {
                 Title = Resources.ResultSetRepeatTrackTitle,
                 Icon = Icons.Repeat,
             },
-            new ListItem(new NoOpCommand()) // TODO: SetRepeatContextShuffleCommand
+            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)))
             {
                 Title = Resources.ResultSetRepeatContextTitle,
                 Icon = Icons.Repeat,
             },
-            new ListItem(new NoOpCommand()) // TODO: SetRepeatOfftShuffleCommand
+            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)))
             {
                 Title = Resources.ResultSetRepeatOffTitle,
                 Icon = Icons.Repeat,
@@ -167,7 +168,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         if (searchResponse.Tracks.Items != null)
             results.AddRange(searchResponse.Tracks.Items.Select(track =>
-                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                new ListItem(new ResumePlaybackCommand(_spotifyClient, new PlayerResumePlaybackRequest() { Uris = [track.Uri] }))
                 {
                     Title = track.Name,
                     Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
@@ -177,7 +178,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         if (searchResponse.Albums.Items != null)
             results.AddRange(searchResponse.Albums.Items.Select(album =>
-                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                new ListItem(new ResumePlaybackCommand(_spotifyClient, album.Uri))
                 {
                     Title = album.Name,
                     Subtitle = Resources.ResultAlbumSubTitle,
@@ -188,7 +189,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         if (searchResponse.Artists.Items != null)
             results.AddRange(searchResponse.Artists.Items.Select(artist =>
-                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                new ListItem(new ResumePlaybackCommand(_spotifyClient, artist.Uri))
                 {
                     Title = artist.Name,
                     Subtitle = Resources.ResultArtistSubTitle,
@@ -198,7 +199,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         if (searchResponse.Playlists.Items != null)
             results.AddRange(searchResponse.Playlists.Items.Where(playlist => playlist != null).Select(playlist =>
-                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                new ListItem(new ResumePlaybackCommand(_spotifyClient, playlist.Uri))
                 {
                     Title = playlist.Name,
                     Subtitle = Resources.ResultPlaylistSubTitle,
