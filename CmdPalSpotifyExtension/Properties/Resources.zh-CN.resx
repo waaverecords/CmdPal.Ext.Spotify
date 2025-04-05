@@ -118,72 +118,72 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginDescription" xml:space="preserve">
-    <value>Searches and controls Spotify.</value>
+    <value>搜索歌曲与控制 Spotify.</value>
   </data>
   <data name="PluginOptionClientIdDescription" xml:space="preserve">
-    <value>Your Spotify's app client id.</value>
+    <value>你的 Spotify Client ID.</value>
   </data>
   <data name="ResultMissingClientIdTitle" xml:space="preserve">
-    <value>Spotify - Missing client ID</value>
+    <value>Spotify - 缺失 Client ID</value>
   </data>
   <data name="ResultMissingClientIdSubTitle" xml:space="preserve">
-    <value>Set your client ID in the plugin's settings</value>
+    <value>在插件设置中设置你的 Client ID</value>
   </data>
   <data name="ResultLoginTitle" xml:space="preserve">
-    <value>Login</value>
+    <value>Spotify - 登录</value>
   </data>
   <data name="ResultLoginSubTitle" xml:space="preserve">
-    <value>Login to authorize the extension to use the Spotify API</value>
+    <value>登录以授权使用 Spotify API</value>
   </data>
   <data name="ResultSongSubTitle" xml:space="preserve">
-    <value>Song</value>
+    <value>歌曲</value>
   </data>
   <data name="ResultSongExplicitSubTitle" xml:space="preserve">
-    <value>Explicit</value>
+    <value>成人</value>
   </data>
   <data name="ResultSongBySubTitle" xml:space="preserve">
-    <value>By</value>
+    <value>作者</value>
   </data>
   <data name="ResultAlbumSubTitle" xml:space="preserve">
-    <value>Album</value>
+    <value>专辑</value>
   </data>
   <data name="ResultArtistSubTitle" xml:space="preserve">
-    <value>Artist</value>
+    <value>艺术家</value>
   </data>
   <data name="ResultPreviousTrackTitle" xml:space="preserve">
-    <value>Previous track</value>
+    <value>上一曲</value>
   </data>
   <data name="ResultNextTrackTitle" xml:space="preserve">
-    <value>Next track</value>
+    <value>下一曲</value>
   </data>
   <data name="ResultPausePlaybackTitle" xml:space="preserve">
-    <value>Pause playback</value>
+    <value>暂停播放</value>
   </data>
   <data name="ResultResumePlaybackTitle" xml:space="preserve">
-    <value>Resume playback</value>
+    <value>继续播放</value>
   </data>
   <data name="ResultTogglePlaybackTitle" xml:space="preserve">
-    <value>Toggle playback</value>
+    <value>播放/暂停</value>
   </data>
   <data name="ResultTurnOnShuffleTitle" xml:space="preserve">
-    <value>Turn on shuffle</value>
+    <value>启用随机播放</value>
   </data>
   <data name="ResultTurnOffShuffleTitle" xml:space="preserve">
-    <value>Turn off shuffle</value>
+    <value>关闭随机播放</value>
   </data>
   <data name="ResultSetRepeatTrackTitle" xml:space="preserve">
-    <value>Set repeat to track</value>
+    <value>重复播放单曲</value>
   </data>
   <data name="ResultSetRepeatContextTitle" xml:space="preserve">
-    <value>Set repeat to context</value>
+    <value>重复播放列表</value>
   </data>
   <data name="ResultSetRepeatOffTitle" xml:space="preserve">
-    <value>Set repeat to off</value>
+    <value>关闭重复播放</value>
   </data>
   <data name="ContextMenuResultAddToQueueTitle" xml:space="preserve">
-    <value>Add to queue (Shift+Enter)</value>
+    <value>添加到队列 (Shift+Enter)</value>
   </data>
   <data name="ResultPlaylistSubTitle" xml:space="preserve">
-    <value>Playlist</value>
+    <value>播放列表</value>
   </data>
 </root>
