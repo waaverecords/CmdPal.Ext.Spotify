@@ -160,6 +160,15 @@ namespace CmdPalSpotifyExtension.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Playlist.
+        /// </summary>
+        internal static string ResultPlaylistSubTitle {
+            get {
+                return ResourceManager.GetString("ResultPlaylistSubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Previous track.
         /// </summary>
         internal static string ResultPreviousTrackTitle {

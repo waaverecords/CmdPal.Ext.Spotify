@@ -6,6 +6,7 @@ using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
@@ -64,117 +65,39 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
                 }
             ];
 
-        var results = new List<ListItem>();
 
         if (_spotifyClient == null)
             _spotifyClient = await GetSpotifyClientAsync(ClientId);
 
         if (string.IsNullOrEmpty(search.Trim()))
-            return GetBasicItems();
+            return GetDefaultItems();
 
-        return [];
-        //var searchRequest = new SearchRequest(SearchRequest.Types.All, query.Search)
-        //{
-        //    Limit = 5
-        //};
-
-        //var searchResponse = _spotifyClient.Search.Item(searchRequest).GetAwaiter().GetResult();
-
-        //if (searchResponse.Tracks.Items != null)
-        //    results.AddRange(searchResponse.Tracks.Items.Select(track => new Result
-        //    {
-        //        Title = track.Name,
-        //        SubTitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
-        //        Icon = () => new BitmapImage(new Uri(track.Album.Images.OrderBy(x => x.Width * x.Height).First().Url)),
-        //        ContextData = new ContextData
-        //        {
-        //            ResultType = ResultType.Song,
-        //            Uri = track.Uri
-        //        },
-        //        Action = context =>
-        //        {
-        //            _ = EnsureActiveDevice(
-        //                async (player, request) => await player.ResumePlayback(request),
-        //                new PlayerResumePlaybackRequest { Uris = new List<string> { track.Uri } }
-        //            );
-        //            return true;
-        //        }
-        //    }));
-
-        //if (searchResponse.Albums.Items != null)
-        //    results.AddRange(searchResponse.Albums.Items.Select(album => new Result
-        //    {
-        //        Title = album.Name,
-        //        SubTitle = Resources.ResultAlbumSubTitle,
-        //        Icon = () => new BitmapImage(new Uri(album.Images.OrderBy(x => x.Width * x.Height).First().Url)),
-        //        ContextData = new ContextData
-        //        {
-        //            ResultType = ResultType.Album,
-        //            Uri = album.Uri
-        //        },
-        //        Action = context =>
-        //        {
-        //            _ = EnsureActiveDevice(
-        //                async (player, request) => await player.ResumePlayback(request),
-        //                new PlayerResumePlaybackRequest { ContextUri = album.Uri }
-        //            );
-        //            return true;
-        //        }
-        //    }));
-
-
-        //if (searchResponse.Artists.Items != null)
-        //    results.AddRange(searchResponse.Artists.Items.Select(artist => new Result
-        //    {
-        //        Title = artist.Name,
-        //        SubTitle = Resources.ResultArtistSubTitle,
-        //        Icon = () => new BitmapImage(new Uri(artist.Images.OrderBy(x => x.Width * x.Height).First().Url)),
-        //        ContextData = new ContextData
-        //        {
-        //            ResultType = ResultType.Artist,
-        //            Uri = artist.Uri
-        //        },
-        //        Action = context =>
-        //        {
-        //            _ = EnsureActiveDevice(
-        //                async (player, request) => await player.ResumePlayback(request),
-        //                new PlayerResumePlaybackRequest { ContextUri = artist.Uri }
-        //            );
-        //            return true;
-        //        }
-        //    }));
-
-        //if (searchResponse.Playlists.Items != null)
-        //{
-        //    results.AddRange(searchResponse.Playlists.Items.Where(playlist => playlist != null).Select(playlist => new Result
-        //    {
-        //        Title = playlist.Name,
-        //        SubTitle = "Playlist",
-        //        Icon = () => new BitmapImage(new Uri(playlist.Images.OrderBy(x => x.Width * x.Height).First().Url)),
-        //        ContextData = new ContextData
-        //        {
-        //            ResultType = ResultType.Playlist,
-        //            Uri = playlist.Uri
-        //        },
-        //        Action = context =>
-        //        {
-        //            _ = EnsureActiveDevice(
-        //                async (player, request) => await player.ResumePlayback(request),
-        //                new PlayerResumePlaybackRequest { ContextUri = playlist.Uri }
-        //            );
-        //            return true;
-        //        }
-
-        //    }));
-        //}
-
-        //foreach (var result in results)
-        //    result.Score = GetScore(result.Title, query.Search);
-
-        //return results;
+        return await GetSearchItemsAsync(search);
     }
 
-    private static List<ListItem> GetBasicItems()
+    private async Task<SpotifyClient> GetSpotifyClientAsync(string clientId)
+    {
+        var json = await File.ReadAllTextAsync(_credentialsPath);
+        var credentials = JsonNode.Parse(json) as JsonObject;
+        var token = new PKCETokenResponse
+        {
+            AccessToken = credentials["AccessToken"].GetValue<string>(),
+            TokenType = credentials["TokenType"].GetValue<string>(),
+            ExpiresIn = credentials["ExpiresIn"].GetValue<int>(),
+            Scope = credentials["Scope"].GetValue<string>(),
+            RefreshToken = credentials["RefreshToken"].GetValue<string>(),
+        };
+
+        var authenticator = new PKCEAuthenticator(clientId!, token!);
+        authenticator.TokenRefreshed += (sender, token) => File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(token));
+
+        var config = SpotifyClientConfig.CreateDefault()
+            .WithAuthenticator(authenticator);
+
+        return new SpotifyClient(config);
+    }
+
+    private static List<ListItem> GetDefaultItems()
     {
         return [
             new ListItem(new NoOpCommand()) // TODO: TogglePlaybackCommand
@@ -230,25 +153,61 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
         ];
     }
 
-    private async Task<SpotifyClient> GetSpotifyClientAsync(string clientId)
+    private async Task<List<ListItem>> GetSearchItemsAsync(string search)
     {
-        var json = await File.ReadAllTextAsync(_credentialsPath);
-        var credentials = JsonNode.Parse(json) as JsonObject;
-        var token = new PKCETokenResponse
+        var results = new List<ListItem>();
+
+        var searchRequest = new SearchRequest(SearchRequest.Types.All, search)
         {
-            AccessToken = credentials["AccessToken"].GetValue<string>(),
-            TokenType = credentials["TokenType"].GetValue<string>(),
-            ExpiresIn = credentials["ExpiresIn"].GetValue<int>(),
-            Scope = credentials["Scope"].GetValue<string>(),
-            RefreshToken = credentials["RefreshToken"].GetValue<string>(),
+            Limit = 5
         };
 
-        var authenticator = new PKCEAuthenticator(clientId!, token!);
-        authenticator.TokenRefreshed += (sender, token) => File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(token));
+        var searchResponse = await _spotifyClient.Search.Item(searchRequest);
 
-        var config = SpotifyClientConfig.CreateDefault()
-            .WithAuthenticator(authenticator);
+        if (searchResponse.Tracks.Items != null)
+            results.AddRange(searchResponse.Tracks.Items.Select(track =>
+                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                {
+                    Title = track.Name,
+                    Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
+                    // TODO: icon
+                })
+            );
 
-        return new SpotifyClient(config);
+        if (searchResponse.Albums.Items != null)
+            results.AddRange(searchResponse.Albums.Items.Select(album =>
+                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                {
+                    Title = album.Name,
+                    Subtitle = Resources.ResultAlbumSubTitle,
+                    // TODO: icon
+                })
+            );
+
+
+        if (searchResponse.Artists.Items != null)
+            results.AddRange(searchResponse.Artists.Items.Select(artist =>
+                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                {
+                    Title = artist.Name,
+                    Subtitle = Resources.ResultArtistSubTitle,
+                    // TODO: icon
+                })
+            );
+
+        if (searchResponse.Playlists.Items != null)
+            results.AddRange(searchResponse.Playlists.Items.Where(playlist => playlist != null).Select(playlist =>
+                new ListItem(new NoOpCommand()) // TODO: PlayerResumePlaybackCommand
+                {
+                    Title = playlist.Name,
+                    Subtitle = Resources.ResultPlaylistSubTitle,
+                    // TODO: icon
+                })
+            );
+
+        //foreach (var result in results)
+        //    result.Score = GetScore(result.Title, query.Search);
+
+        return results;
     }
 }
