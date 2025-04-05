@@ -163,7 +163,7 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
                 {
                     Title = track.Name,
                     Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
-                    // TODO: icon
+                    Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).First().Url),
                 })
             );
 
@@ -173,7 +173,7 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
                 {
                     Title = album.Name,
                     Subtitle = Resources.ResultAlbumSubTitle,
-                    // TODO: icon
+                    Icon = new IconInfo(album.Images.OrderBy(x => x.Width * x.Height).First().Url),
                 })
             );
 
@@ -184,7 +184,7 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
                 {
                     Title = artist.Name,
                     Subtitle = Resources.ResultArtistSubTitle,
-                    // TODO: icon
+                    Icon = new IconInfo(artist.Images.OrderBy(x => x.Width * x.Height).First().Url),
                 })
             );
 
@@ -194,7 +194,7 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
                 {
                     Title = playlist.Name,
                     Subtitle = Resources.ResultPlaylistSubTitle,
-                    // TODO: icon
+                    Icon = new IconInfo(playlist.Images.OrderBy(x => x.Width * x.Height).First().Url),
                 })
             );
 
