@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace CmdPalSpotifyExtension;
@@ -30,6 +29,8 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
 
         _appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CmdPal.Ext.Spotify");
         _credentialsPath = Path.Combine(_appDataPath, "credentials.json");
+
+        _items = [.. SearchAsync(string.Empty).GetAwaiter().GetResult()];
     }
 
     public override IListItem[] GetItems() => [.. _items];
@@ -78,17 +79,9 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
     private async Task<SpotifyClient> GetSpotifyClientAsync(string clientId)
     {
         var json = await File.ReadAllTextAsync(_credentialsPath);
-        var credentials = JsonNode.Parse(json) as JsonObject;
-        var token = new PKCETokenResponse
-        {
-            AccessToken = credentials["AccessToken"].GetValue<string>(),
-            TokenType = credentials["TokenType"].GetValue<string>(),
-            ExpiresIn = credentials["ExpiresIn"].GetValue<int>(),
-            Scope = credentials["Scope"].GetValue<string>(),
-            RefreshToken = credentials["RefreshToken"].GetValue<string>(),
-        };
+        var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
 
-        var authenticator = new PKCEAuthenticator(clientId!, token!);
+        var authenticator = new PKCEAuthenticator(clientId, token);
         authenticator.TokenRefreshed += (sender, token) => File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(token));
 
         var config = SpotifyClientConfig.CreateDefault()

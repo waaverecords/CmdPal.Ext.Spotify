@@ -14,10 +14,10 @@ public class Program
     {
         if (args.Length > 0 && args[0] == "-RegisterProcessAsComServer")
         {
-            await using global::Shmuelie.WinRTServer.ComServer server = new();
-            ManualResetEvent extensionDisposedEvent = new(false);
+            await using var server = new ComServer();
+            var extensionDisposedEvent = new ManualResetEvent(false);
             
-            CmdPalSpotifyExtension extensionInstance = new(extensionDisposedEvent);
+            var extensionInstance = new CmdPalSpotifyExtension(extensionDisposedEvent);
             server.RegisterClass<CmdPalSpotifyExtension, IExtension>(() => extensionInstance);
             server.Start();
             
