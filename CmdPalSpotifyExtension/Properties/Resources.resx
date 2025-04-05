@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExtensionDescription" xml:space="preserve">
-    <value>Searches and controls Spotify.</value>
+    <value>Search through and control Spotify.</value>
   </data>
   <data name="ExtensionSettingClientIdDescription" xml:space="preserve">
     <value>Your Spotify's app client id.</value>
@@ -185,5 +185,8 @@
   </data>
   <data name="ResultPlaylistSubTitle" xml:space="preserve">
     <value>Playlist</value>
+  </data>
+  <data name="ExtensionDisplayName" xml:space="preserve">
+    <value>Spotify player</value>
   </data>
 </root>

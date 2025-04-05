@@ -1,11 +1,11 @@
 {
-  "profiles": {
-    "CmdPalSpotifyExtension (Package)": {
-      "commandName": "MsixPackage",
-      "doNotLaunchApp": true
-    },
-    "CmdPalSpotifyExtension (Unpackaged)": {
-      "commandName": "Project"
+    "profiles": {
+        "CmdPal.Ext.Spotify (Package)": {
+            "commandName": "MsixPackage",
+            "doNotLaunchApp": true
+        },
+        "CmdPal.Ext.Spotify (Unpackaged)": {
+            "commandName": "Project"
+        }
     }
-  }
 }

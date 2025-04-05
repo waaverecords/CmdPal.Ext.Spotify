@@ -1,4 +1,5 @@
-using CmdPalSpotifyExtension.Properties;
+using CmdPal.Ext.Spotify.Helpers;
+using CmdPal.Ext.Spotify.Properties;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 using Newtonsoft.Json;
@@ -9,9 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CmdPalSpotifyExtension;
+namespace CmdPal.Ext.Spotify.Pages;
 
-internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
+internal sealed partial class SpotifyListPage : DynamicListPage
 {
     private List<ListItem> _items = new();
     private SettingsManager _settingsManager;
@@ -19,11 +20,11 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
     private string _credentialsPath;
     private SpotifyClient _spotifyClient;
 
-    public CmdPalSpotifyExtensionPage(SettingsManager settingsManager)
+    public SpotifyListPage(SettingsManager settingsManager)
     {
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
-        Title = "Spotify";
-        Name = "Open";
+        Title = Resources.ExtensionDisplayName;
+        Name = Resources.ExtensionDisplayName;
 
         _settingsManager = settingsManager;
 

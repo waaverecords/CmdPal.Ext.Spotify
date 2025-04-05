@@ -186,4 +186,7 @@
   <data name="ResultPlaylistSubTitle" xml:space="preserve">
     <value>播放列表</value>
   </data>
+  <data name="ExtensionDisplayName" xml:space="preserve">
+    <value>Spotify 播放器</value>
+  </data>
 </root>

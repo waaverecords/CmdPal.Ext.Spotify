@@ -8,73 +8,73 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap uap3 rescap">
 
-  <Identity
-    Name="CmdPalSpotifyExtension"
-    Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
-    Version="0.0.1.0" />
-  <!-- When you're ready to publish your extension, you'll need to change the
+	<Identity
+	  Name="CmdPal.Ext.Spotify"
+	  Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+	  Version="0.0.1.0" />
+	<!-- When you're ready to publish your extension, you'll need to change the
        Publisher= to match your own identity -->
 
-  <Properties>
-    <DisplayName>CmdPalSpotifyExtension</DisplayName>
-    <PublisherDisplayName>waaverecords</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
-  </Properties>
+	<Properties>
+		<DisplayName>CmdPal.Ext.Spotify</DisplayName>
+		<PublisherDisplayName>waaverecords</PublisherDisplayName>
+		<Logo>Assets\StoreLogo.png</Logo>
+	</Properties>
 
-  <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.19041.0" />
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.19041.0" />
-  </Dependencies>
+	<Dependencies>
+		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.19041.0" />
+		<TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.19041.0" />
+	</Dependencies>
 
-  <Resources>
-    <Resource Language="x-generate"/>
-  </Resources>
+	<Resources>
+		<Resource Language="x-generate"/>
+	</Resources>
 
-  <Applications>
-    <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="$targetentrypoint$">
-      <uap:VisualElements
-        DisplayName="CmdPal Spotify Extension"
-        Description="Spotify"
-        BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
-      </uap:VisualElements>
-      <Extensions>
-        <com:Extension Category="windows.comServer">
-          <com:ComServer>
-            <com:ExeServer Executable="CmdPalSpotifyExtension.exe" Arguments="-RegisterProcessAsComServer" DisplayName="Spotify">
-              <com:Class Id="677504e0-4cc4-4801-ace8-f1d141c68f37" DisplayName="Spotify" />
-            </com:ExeServer>
-          </com:ComServer>
-        </com:Extension>
-        <uap3:Extension Category="windows.appExtension">
-          <uap3:AppExtension Name="com.microsoft.commandpalette"
-            Id="ID"
-            PublicFolder="Public"
-            DisplayName="Spotify"
-            Description="Spotify">
-            <uap3:Properties>
-              <CmdPalProvider>
-                <Activation>
-                  <CreateInstance ClassId="677504e0-4cc4-4801-ace8-f1d141c68f37" />
-                </Activation>
-                <SupportedInterfaces>
-                  <Commands/>
-                </SupportedInterfaces>
-              </CmdPalProvider>
-            </uap3:Properties>
-          </uap3:AppExtension>
-        </uap3:Extension>
-      </Extensions>
-    </Application>
-  </Applications>
+	<Applications>
+		<Application Id="App"
+		  Executable="$targetnametoken$.exe"
+		  EntryPoint="$targetentrypoint$">
+			<uap:VisualElements
+			  DisplayName="CmdPal Spotify Extension"
+			  Description="Spotify"
+			  BackgroundColor="transparent"
+			  Square150x150Logo="Assets\Square150x150Logo.png"
+			  Square44x44Logo="Assets\Square44x44Logo.png">
+				<uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+				<uap:SplashScreen Image="Assets\SplashScreen.png" />
+			</uap:VisualElements>
+			<Extensions>
+				<com:Extension Category="windows.comServer">
+					<com:ComServer>
+						<com:ExeServer Executable="CmdPal.Ext.Spotify.exe" Arguments="-RegisterProcessAsComServer" DisplayName="Spotify">
+							<com:Class Id="677504e0-4cc4-4801-ace8-f1d141c68f37" DisplayName="Spotify" />
+						</com:ExeServer>
+					</com:ComServer>
+				</com:Extension>
+				<uap3:Extension Category="windows.appExtension">
+					<uap3:AppExtension Name="com.microsoft.commandpalette"
+					  Id="ID"
+					  PublicFolder="Public"
+					  DisplayName="Spotify"
+					  Description="Spotify">
+						<uap3:Properties>
+							<CmdPalProvider>
+								<Activation>
+									<CreateInstance ClassId="677504e0-4cc4-4801-ace8-f1d141c68f37" />
+								</Activation>
+								<SupportedInterfaces>
+									<Commands/>
+								</SupportedInterfaces>
+							</CmdPalProvider>
+						</uap3:Properties>
+					</uap3:AppExtension>
+				</uap3:Extension>
+			</Extensions>
+		</Application>
+	</Applications>
 
-  <Capabilities>
-    <Capability Name="internetClient" />
-    <rescap:Capability Name="runFullTrust" />
-  </Capabilities>
+	<Capabilities>
+		<Capability Name="internetClient" />
+		<rescap:Capability Name="runFullTrust" />
+	</Capabilities>
 </Package>

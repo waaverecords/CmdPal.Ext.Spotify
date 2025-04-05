@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CmdPalSpotifyExtension;
+namespace CmdPal.Ext.Spotify;
 
 public class Program
 {
@@ -17,8 +17,8 @@ public class Program
             await using var server = new ComServer();
             var extensionDisposedEvent = new ManualResetEvent(false);
             
-            var extensionInstance = new CmdPalSpotifyExtension(extensionDisposedEvent);
-            server.RegisterClass<CmdPalSpotifyExtension, IExtension>(() => extensionInstance);
+            var extensionInstance = new SpotifyExtension(extensionDisposedEvent);
+            server.RegisterClass<SpotifyExtension, IExtension>(() => extensionInstance);
             server.Start();
             
             extensionDisposedEvent.WaitOne();

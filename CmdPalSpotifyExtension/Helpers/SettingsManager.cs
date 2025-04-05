@@ -1,8 +1,8 @@
-﻿using CmdPalSpotifyExtension.Properties;
+﻿using CmdPal.Ext.Spotify.Properties;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 using System.IO;
 
-namespace CmdPalSpotifyExtension;
+namespace CmdPal.Ext.Spotify.Helpers;
 
 public class SettingsManager : JsonSettingsManager
 {
