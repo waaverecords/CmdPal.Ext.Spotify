@@ -26,6 +26,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Assets\Dark\" />
+		<Folder Include="Assets\Light\" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 

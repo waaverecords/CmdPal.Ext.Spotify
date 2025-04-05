@@ -79,7 +79,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             _spotifyClient = await GetSpotifyClientAsync(clientId);
 
         if (string.IsNullOrEmpty(search.Trim()))
-            return GetDefaultItems();
+            return GetPlayertItems();
 
         return await GetSearchItemsAsync(search);
     }
@@ -98,58 +98,58 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         return new SpotifyClient(config);
     }
 
-    private static List<ListItem> GetDefaultItems()
+    private static List<ListItem> GetPlayertItems()
     {
         return [
             new ListItem(new NoOpCommand()) // TODO: TogglePlaybackCommand
             {
                 Title = Resources.ResultTogglePlaybackTitle,
-                // TODO: icon
+                Icon = Icons.PlayPause,
             },
             new ListItem(new NoOpCommand()) // TODO: PausePlaybackCommand
             {
                 Title = Resources.ResultPausePlaybackTitle,
-                // TODO: icon
+                Icon = Icons.Pause,
             },
             new ListItem(new NoOpCommand()) // TODO: ResumePlaybackCommand
             {
                 Title = Resources.ResultResumePlaybackTitle,
-                // TODO: icon
+                Icon = Icons.Play,
             },
             new ListItem(new NoOpCommand()) // TODO: SkipNextCommand
             {
                 Title = Resources.ResultNextTrackTitle,
-                // TODO: icon
+                Icon = Icons.Next,
             },
             new ListItem(new NoOpCommand()) // TODO: SkipPreviousCommand
             {
                 Title = Resources.ResultPreviousTrackTitle,
-                // TODO: icon
+                Icon = Icons.Previous,
             },
             new ListItem(new NoOpCommand()) // TODO: TurnOnShuffleCommand
             {
                 Title = Resources.ResultTurnOnShuffleTitle,
-                // TODO: icon
+                Icon = Icons.Shuffle,
             },
             new ListItem(new NoOpCommand()) // TODO: TurnOffShuffleCommand
             {
                 Title = Resources.ResultTurnOffShuffleTitle,
-                // TODO: icon
+                Icon = Icons.Shuffle,
             },
             new ListItem(new NoOpCommand()) // TODO: SetRepeatTrackShuffleCommand
             {
                 Title = Resources.ResultSetRepeatTrackTitle,
-                // TODO: icon
+                Icon = Icons.Repeat,
             },
             new ListItem(new NoOpCommand()) // TODO: SetRepeatContextShuffleCommand
             {
                 Title = Resources.ResultSetRepeatContextTitle,
-                // TODO: icon
+                Icon = Icons.Repeat,
             },
             new ListItem(new NoOpCommand()) // TODO: SetRepeatOfftShuffleCommand
             {
                 Title = Resources.ResultSetRepeatOffTitle,
-                // TODO: icon
+                Icon = Icons.Repeat,
             },
         ];
     }

@@ -23,7 +23,7 @@ public partial class SpotifyCommandsProvider : CommandProvider
         {
             Title = DisplayName,
             Subtitle = Resources.ExtensionDescription,
-            // TODO: icon
+            Icon = Icons.Spotify,
             MoreCommands = [new CommandContextItem(Settings.SettingsPage)]
         };
     }
