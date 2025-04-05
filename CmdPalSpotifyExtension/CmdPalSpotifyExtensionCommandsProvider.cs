@@ -14,14 +14,14 @@ public partial class CmdPalSpotifyExtensionCommandsProvider : CommandProvider
         DisplayName = "Spotify";
         Id = "Spotify";
         Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
-        //Settings = _settingsManager.Settings;
+        Settings = _settingsManager.Settings;
 
         _command = new CommandItem(_spotifyExtensionPage)
         {
             //Icon,
             Title = DisplayName,
             //Subtitle,
-            //MoreCommands = [new CommandContextItem(Settings.SettingsPage)]
+            MoreCommands = [new CommandContextItem(Settings.SettingsPage)]
         };
     }
 

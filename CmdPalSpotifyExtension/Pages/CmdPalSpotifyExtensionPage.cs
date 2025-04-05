@@ -37,17 +37,25 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
 
     public override void UpdateSearchText(string oldSearch, string newSearch)
     {
+        UpdateSearchTextAsync(newSearch);
+    }
+
+    private async void UpdateSearchTextAsync(string search)
+    {
         IsLoading = true;
-        _items = [.. SearchAsync(newSearch).GetAwaiter().GetResult()];
+
+        _items = [.. await SearchAsync(search)];
+
         IsLoading = false;
+
         RaiseItemsChanged(0);
     }
 
     public async Task<List<ListItem>> SearchAsync(string search)
     {
-        var ClientId = "211f30ea995c46b8aa9b876638e69c0d"; // TODO: get from settings manager
+        var clientId = _settingsManager.ClientId;
 
-        if (string.IsNullOrEmpty(ClientId))
+        if (string.IsNullOrEmpty(clientId))
             return [
                 new ListItem(new NoOpCommand())
                 {
@@ -66,9 +74,8 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
                 }
             ];
 
-
         if (_spotifyClient == null)
-            _spotifyClient = await GetSpotifyClientAsync(ClientId);
+            _spotifyClient = await GetSpotifyClientAsync(clientId);
 
         if (string.IsNullOrEmpty(search.Trim()))
             return GetDefaultItems();
@@ -197,9 +204,6 @@ internal sealed partial class CmdPalSpotifyExtensionPage : DynamicListPage
                     Icon = new IconInfo(playlist.Images.OrderBy(x => x.Width * x.Height).First().Url),
                 })
             );
-
-        //foreach (var result in results)
-        //    result.Score = GetScore(result.Title, query.Search);
 
         return results;
     }

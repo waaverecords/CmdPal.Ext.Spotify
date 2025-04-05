@@ -72,18 +72,18 @@ namespace CmdPalSpotifyExtension.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Searches and controls Spotify..
         /// </summary>
-        internal static string PluginDescription {
+        internal static string ExtensionDescription {
             get {
-                return ResourceManager.GetString("PluginDescription", resourceCulture);
+                return ResourceManager.GetString("ExtensionDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Your Spotify&apos;s app client id..
         /// </summary>
-        internal static string PluginOptionClientIdDescription {
+        internal static string ExtensionSettingClientIdDescription {
             get {
-                return ResourceManager.GetString("PluginOptionClientIdDescription", resourceCulture);
+                return ResourceManager.GetString("ExtensionSettingClientIdDescription", resourceCulture);
             }
         }
         
@@ -124,7 +124,7 @@ namespace CmdPalSpotifyExtension.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set your client ID in the plugin&apos;s settings.
+        ///   Looks up a localized string similar to Set your client ID in the extension&apos;s settings.
         /// </summary>
         internal static string ResultMissingClientIdSubTitle {
             get {

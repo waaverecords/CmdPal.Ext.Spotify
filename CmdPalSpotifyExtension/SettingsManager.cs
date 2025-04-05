@@ -1,4 +1,5 @@
-﻿using Microsoft.CommandPalette.Extensions.Toolkit;
+﻿using CmdPalSpotifyExtension.Properties;
+using Microsoft.CommandPalette.Extensions.Toolkit;
 using System.IO;
 
 namespace CmdPalSpotifyExtension;
@@ -20,7 +21,7 @@ public class SettingsManager : JsonSettingsManager
     private readonly TextSetting _clientId = new(
         Namespaced(nameof(ClientId)),
         "Client ID",
-        "dsecription", // TODO: use resource file
+        Resources.ExtensionSettingClientIdDescription,
         string.Empty
     );
 
@@ -32,8 +33,8 @@ public class SettingsManager : JsonSettingsManager
 
         Settings.Add(_clientId);
 
-        //LoadSettings();
+        LoadSettings();
 
-        //Settings.SettingsChanged += (s, a) => SaveSettings();
+        Settings.SettingsChanged += (s, a) => SaveSettings();
     }
 }
