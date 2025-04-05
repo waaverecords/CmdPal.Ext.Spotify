@@ -30,7 +30,7 @@ internal abstract class PlayerCommand<T> : InvokableCommand
     public override CommandResult Invoke()
     {
         EnsureActiveDeviceAsync(InvokeAsync).GetAwaiter().GetResult();
-        return CommandResult.Dismiss();
+        return CommandResult.Hide();
     }
 
     protected abstract Task InvokeAsync(IPlayerClient player,T requestParams);

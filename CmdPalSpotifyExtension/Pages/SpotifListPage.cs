@@ -17,7 +17,6 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 {
     private List<ListItem> _items = new();
     private SettingsManager _settingsManager;
-    private string _appDataPath;
     private string _credentialsPath;
     private SpotifyClient _spotifyClient;
 
@@ -29,8 +28,8 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         _settingsManager = settingsManager;
 
-        _appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CmdPal.Ext.Spotify");
-        _credentialsPath = Path.Combine(_appDataPath, "credentials.json");
+        var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CmdPal.Ext.Spotify");
+        _credentialsPath = Path.Combine(appDataPath, "credentials.json");
 
         _items = [.. SearchAsync(string.Empty).GetAwaiter().GetResult()];
     }
@@ -69,7 +68,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         if (!File.Exists(_credentialsPath))
             return [
-                new ListItem(new NoOpCommand()) // TODO: LoginToSpotifyCommand
+                new ListItem(new LoginCommand(clientId, _credentialsPath))
                 {
                     Title = Resources.ResultLoginTitle,
                     Subtitle = Resources.ResultLoginSubTitle
