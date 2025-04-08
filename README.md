@@ -1,6 +1,6 @@
 # Spotify Extension for CmdPal
 
-This is an extension for [PowerToys](https://github.com/microsoft/PowerToys) [Command Pallete](https://learn.microsoft.com/en-us/windows/powertoys/command-palette/overview) that allows you to search Spotify and control its player.
+This is an extension for [PowerToys](https://github.com/microsoft/PowerToys) [Command Palette](https://learn.microsoft.com/en-us/windows/powertoys/command-palette/overview) that allows you to search Spotify and control its player.
 
 ## Features
 
