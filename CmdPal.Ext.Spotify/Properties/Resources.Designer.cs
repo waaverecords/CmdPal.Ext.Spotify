@@ -79,7 +79,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Spotify player.
+        ///   Looks up a localized string similar to Spotify control.
         /// </summary>
         internal static string ExtensionDisplayName {
             get {
