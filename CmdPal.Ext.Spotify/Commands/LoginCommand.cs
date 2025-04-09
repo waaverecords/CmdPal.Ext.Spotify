@@ -13,6 +13,7 @@ internal partial class LoginCommand : InvokableCommand
 {
     private string _clientId;
     private string _credentialsPath;
+    public event EventHandler? LoggedIn;
 
     public LoginCommand(
         string clientId,
@@ -46,7 +47,9 @@ internal partial class LoginCommand : InvokableCommand
             var tokenResponse = await client.RequestToken(tokenRequest);
 
             Directory.CreateDirectory(Path.GetDirectoryName(_credentialsPath));
-            File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(tokenResponse));
+            await File.WriteAllTextAsync(_credentialsPath, JsonConvert.SerializeObject(tokenResponse));
+
+            LoggedIn?.Invoke(this, EventArgs.Empty);
 
             tcs.SetResult();
         };

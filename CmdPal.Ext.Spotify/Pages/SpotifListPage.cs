@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CmdPal.Ext.Spotify.Pages;
@@ -19,6 +20,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
     private SettingsManager _settingsManager;
     private string _credentialsPath;
     private SpotifyClient _spotifyClient;
+    private Timer _debounceTimer;
 
     public SpotifyListPage(SettingsManager settingsManager)
     {
@@ -27,32 +29,37 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         Name = Resources.ExtensionDisplayName;
 
         _settingsManager = settingsManager;
+        _settingsManager.Settings.SettingsChanged += (_, _) => SearchAsync(SearchText);
 
         var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CmdPal.Ext.Spotify");
         _credentialsPath = Path.Combine(appDataPath, "credentials.json");
 
-        _items = [.. SearchAsync(string.Empty).GetAwaiter().GetResult()];
+        _items = [.. GetItems(string.Empty).GetAwaiter().GetResult()];
     }
 
     public override IListItem[] GetItems() => [.. _items];
 
     public override void UpdateSearchText(string oldSearch, string newSearch)
     {
-        UpdateSearchTextAsync(newSearch);
-    }
-
-    private async void UpdateSearchTextAsync(string search)
-    {
         IsLoading = true;
 
-        _items = [.. await SearchAsync(search)];
+        _debounceTimer?.Dispose();
 
+        _debounceTimer = new Timer(
+            _ => SearchAsync(newSearch),
+            null, TimeSpan.FromMilliseconds(300), Timeout.InfiniteTimeSpan
+        );
+    }
+
+    private async void SearchAsync(string search)
+    {
+        IsLoading = true;
+        _items = [.. await GetItems(search)];
         IsLoading = false;
-
         RaiseItemsChanged(0);
     }
 
-    public async Task<List<ListItem>> SearchAsync(string search)
+    private async Task<List<ListItem>> GetItems(string search)
     {
         var clientId = _settingsManager.ClientId;
 
@@ -67,13 +74,18 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
 
         if (!File.Exists(_credentialsPath))
+        {
+            var loginCommand = new LoginCommand(clientId, _credentialsPath);
+            loginCommand.LoggedIn += (_, _) => SearchAsync(search);
+
             return [
-                new ListItem(new LoginCommand(clientId, _credentialsPath))
+                new ListItem(loginCommand)
                 {
                     Title = Resources.ResultLoginTitle,
                     Subtitle = Resources.ResultLoginSubTitle
                 }
             ];
+        }
 
         if (_spotifyClient == null)
             _spotifyClient = await GetSpotifyClientAsync(clientId);

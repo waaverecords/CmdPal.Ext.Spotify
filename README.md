@@ -31,8 +31,7 @@ This is an extension for [PowerToys](https://github.com/microsoft/PowerToys) [Co
 8. Go to the settings of the newly created app and save somewhere the value of `Client ID`. It is needed later.
 9. Open the Command Palette Settings and go to the Extensions section. Scroll down until you find the `Spotify control` section.
 10. Set the value of `Client ID` with the value saved earlier.
-11. Reload extensions (Execute the Reload command).
-12. Type `spotify` in Command Palette. You should see `Spotify control`. Hit `enter` and go through the login process.
+11. Type `spotify` in Command Palette. You should see `Spotify control`. Hit `enter` and go through the login process.
 
 ## Contributing
 
@@ -53,10 +52,6 @@ Together, we can make CmdPal.Ext.Spotify better!
 ## Development
 
 To build and install the extension, simply run the solution.
-
-// TODO: debounce search to avoid calling spotify api on every new character entered
-
-// TODO: refresh search after login
 
 // TODO: usage doc
 
