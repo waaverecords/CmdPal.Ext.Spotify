@@ -26,7 +26,7 @@ This is an extension for [PowerToys](https://github.com/microsoft/PowerToys) [Co
 5. Execute the `CmdPal.Ext.Spotify_[version]_x64` file to install the extension.
 6. Head to your Spotify [developer dashboard](https://developer.spotify.com/).
 7. Create a new app with:
-    - `Redirect URI` set to `http://localhost:5543/callback`
+    - `Redirect URI` set to `http://127.0.0.1:5543/callback`
     - `Web API` and `Web Playback SDK` checked
 8. Go to the settings of the newly created app and save somewhere the value of `Client ID`. It is needed later.
 9. Open the Command Palette Settings and go to the Extensions section. Scroll down until you find the `Spotify control` section.
