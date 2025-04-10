@@ -178,33 +178,33 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         var searchResponse = await _spotifyClient.Search.Item(searchRequest);
 
         if (searchResponse.Tracks.Items != null)
-            results.AddRange(searchResponse.Tracks.Items.Select(track =>
+            results.AddRange(searchResponse.Tracks.Items.Where(track => track != null).Select(track =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, new PlayerResumePlaybackRequest() { Uris = [track.Uri] }))
                 {
                     Title = track.Name,
                     Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
-                    Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).First().Url),
+                    Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
                 })
             );
 
         if (searchResponse.Albums.Items != null)
-            results.AddRange(searchResponse.Albums.Items.Select(album =>
+            results.AddRange(searchResponse.Albums.Items.Where(album => album != null).Select(album =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, album.Uri))
                 {
                     Title = album.Name,
                     Subtitle = Resources.ResultAlbumSubTitle,
-                    Icon = new IconInfo(album.Images.OrderBy(x => x.Width * x.Height).First().Url),
+                    Icon = new IconInfo(album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
                 })
             );
 
 
         if (searchResponse.Artists.Items != null)
-            results.AddRange(searchResponse.Artists.Items.Select(artist =>
+            results.AddRange(searchResponse.Artists.Items.Where(artist => artist != null).Select(artist =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, artist.Uri))
                 {
                     Title = artist.Name,
                     Subtitle = Resources.ResultArtistSubTitle,
-                    Icon = new IconInfo(artist.Images.OrderBy(x => x.Width * x.Height).First().Url),
+                    Icon = new IconInfo(artist.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
                 })
             );
 
@@ -214,7 +214,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 {
                     Title = playlist.Name,
                     Subtitle = Resources.ResultPlaylistSubTitle,
-                    Icon = new IconInfo(playlist.Images.OrderBy(x => x.Width * x.Height).First().Url),
+                    Icon = new IconInfo(playlist.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
                 })
             );
 
