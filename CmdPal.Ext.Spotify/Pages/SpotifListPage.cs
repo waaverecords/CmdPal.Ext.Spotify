@@ -24,7 +24,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
     public SpotifyListPage(SettingsManager settingsManager)
     {
-        Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
+        Icon = Icons.Spotify;
         Title = Resources.ExtensionDisplayName;
         Name = Resources.ExtensionDisplayName;
 
