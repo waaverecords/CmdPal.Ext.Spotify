@@ -70,6 +70,42 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search for songs, albums, artists, playlists....
+        /// </summary>
+        internal static string EmptyContentSubtitle {
+            get {
+                return ResourceManager.GetString("EmptyContentSubtitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Search Spotify.
+        /// </summary>
+        internal static string EmptyContentTitle {
+            get {
+                return ResourceManager.GetString("EmptyContentTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Error fetching from API.
+        /// </summary>
+        internal static string EmptyErrorTitle {
+            get {
+                return ResourceManager.GetString("EmptyErrorTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No results found.
+        /// </summary>
+        internal static string EmptyResultsTitle {
+            get {
+                return ResourceManager.GetString("EmptyResultsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search through and control Spotify..
         /// </summary>
         internal static string ExtensionDescription {
@@ -93,6 +129,15 @@ namespace CmdPal.Ext.Spotify.Properties {
         internal static string ExtensionSettingClientIdDescription {
             get {
                 return ResourceManager.GetString("ExtensionSettingClientIdDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Spotify.
+        /// </summary>
+        internal static string PageTitle {
+            get {
+                return ResourceManager.GetString("PageTitle", resourceCulture);
             }
         }
         

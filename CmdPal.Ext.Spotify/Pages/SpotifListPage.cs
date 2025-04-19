@@ -25,8 +25,8 @@ internal sealed partial class SpotifyListPage : DynamicListPage
     public SpotifyListPage(SettingsManager settingsManager)
     {
         Icon = Icons.Spotify;
-        Title = Resources.ExtensionDisplayName;
-        Name = Resources.ExtensionDisplayName;
+        Title = Resources.PageTitle;
+        Name = Resources.PageTitle;
 
         _settingsManager = settingsManager;
         _settingsManager.Settings.SettingsChanged += (_, _) => SearchAsync(SearchText);
@@ -35,7 +35,17 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         _credentialsPath = Path.Combine(appDataPath, "credentials.json");
 
         _items = [.. GetItems(string.Empty).GetAwaiter().GetResult()];
+
+        EmptyContent = _defaultEmptyContent;
     }
+
+    private CommandItem _defaultEmptyContent => new(GetPlaybackCommands()[0])
+    {
+        Title = Resources.EmptyContentTitle,
+        Subtitle = Resources.EmptyContentSubtitle,
+        Icon = Icons.Spotify,
+        MoreCommands = GetPlaybackCommands().Skip(1).Select(command => new CommandContextItem(command)).ToArray(),
+    };
 
     public override IListItem[] GetItems() => [.. _items];
 
@@ -64,36 +74,56 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         var clientId = _settingsManager.ClientId;
 
         if (string.IsNullOrEmpty(clientId))
-            return [
-                new ListItem(new NoOpCommand())
-                {
-                    Title = Resources.ResultMissingClientIdTitle,
-                    Subtitle = Resources.ResultMissingClientIdSubTitle
-                }
-            ];
-
+        {
+            EmptyContent = new CommandItem()
+            {
+                Title = Resources.ResultMissingClientIdTitle,
+                Subtitle = Resources.ResultMissingClientIdSubTitle,
+            };
+            return [];
+        }
 
         if (!File.Exists(_credentialsPath))
         {
             var loginCommand = new LoginCommand(clientId, _credentialsPath);
             loginCommand.LoggedIn += (_, _) => SearchAsync(search);
-
-            return [
-                new ListItem(loginCommand)
-                {
-                    Title = Resources.ResultLoginTitle,
-                    Subtitle = Resources.ResultLoginSubTitle
-                }
-            ];
+            EmptyContent = new CommandItem(loginCommand)
+            {
+                Title = Resources.ResultLoginTitle,
+                Subtitle = Resources.ResultLoginSubTitle,
+                Icon = Icons.Spotify,
+            };
+            return [];
         }
 
         if (_spotifyClient == null)
             _spotifyClient = await GetSpotifyClientAsync(clientId);
 
         if (string.IsNullOrEmpty(search.Trim()))
-            return GetPlayertItems();
+        {
+            EmptyContent = _defaultEmptyContent;
+            return [];
+        }
 
-        return await GetSearchItemsAsync(search);
+        try
+        {
+            var results = await GetSearchItemsAsync(search);
+            if (results.Count == 0)
+            {
+                EmptyContent = new CommandItem()
+                {
+                    Title = Resources.EmptyResultsTitle,
+                };
+            }
+            return results;
+        }
+        catch (Exception ex)
+        {
+            EmptyContent = new CommandItem() { 
+                Title = Resources.EmptyErrorTitle,
+            };
+        }
+        return [];
     }
 
     private async Task<SpotifyClient> GetSpotifyClientAsync(string clientId)
