@@ -1,4 +1,6 @@
-﻿using SpotifyAPI.Web;
+﻿using CmdPal.Ext.Spotify.Helpers;
+using CmdPal.Ext.Spotify.Properties;
+using SpotifyAPI.Web;
 using System.Threading.Tasks;
 
 namespace CmdPal.Ext.Spotify.Commands;
@@ -7,9 +9,11 @@ internal sealed partial class ResumePlaybackCommand : PlayerCommand<PlayerResume
 {
     public ResumePlaybackCommand(SpotifyClient spotifyClient, PlayerResumePlaybackRequest requestParams = null) : base(spotifyClient, requestParams ?? new())
     {
+        Name = requestParams == null ? Resources.ResultResumePlaybackTitle : Resources.ResultPlayName;
+        Icon = Icons.Play;
     }
 
-    public ResumePlaybackCommand(SpotifyClient spotifyClient, string contextUri) : base(spotifyClient, new PlayerResumePlaybackRequest { ContextUri = contextUri })
+    public ResumePlaybackCommand(SpotifyClient spotifyClient, string contextUri) : this(spotifyClient, new PlayerResumePlaybackRequest { ContextUri = contextUri })
     {
     }
 

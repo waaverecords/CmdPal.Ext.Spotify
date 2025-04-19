@@ -16,12 +16,12 @@ public partial class SpotifyCommandsProvider : CommandProvider
     {
         DisplayName = Resources.ExtensionDisplayName;
         Id = "Spotify";
-        Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
+        Icon = Icons.Spotify;
         Settings = _settingsManager.Settings;
 
         _command = new CommandItem(_spotifyExtensionPage)
         {
-            Title = DisplayName,
+            Title = Resources.PageTitle,
             Subtitle = Resources.ExtensionDescription,
             Icon = Icons.Spotify,
             MoreCommands = [new CommandContextItem(Settings.SettingsPage)]

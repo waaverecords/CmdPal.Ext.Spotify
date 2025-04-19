@@ -24,9 +24,9 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
     public SpotifyListPage(SettingsManager settingsManager)
     {
-        Icon = IconHelpers.FromRelativePath("Assets\\StoreLogo.png");
-        Title = Resources.ExtensionDisplayName;
-        Name = Resources.ExtensionDisplayName;
+        Icon = Icons.Spotify;
+        Title = Resources.PageTitle;
+        Name = Resources.PageTitle;
 
         _settingsManager = settingsManager;
         _settingsManager.Settings.SettingsChanged += (_, _) => SearchAsync(SearchText);
@@ -35,7 +35,17 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         _credentialsPath = Path.Combine(appDataPath, "credentials.json");
 
         _items = [.. GetItems(string.Empty).GetAwaiter().GetResult()];
+
+        EmptyContent = _defaultEmptyContent;
     }
+
+    private CommandItem _defaultEmptyContent => new(GetPlaybackCommands()[0])
+    {
+        Title = Resources.EmptyContentTitle,
+        Subtitle = Resources.EmptyContentSubtitle,
+        Icon = Icons.Spotify,
+        MoreCommands = GetPlaybackCommands().Skip(1).Select(command => new CommandContextItem(command)).ToArray(),
+    };
 
     public override IListItem[] GetItems() => [.. _items];
 
@@ -64,36 +74,56 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         var clientId = _settingsManager.ClientId;
 
         if (string.IsNullOrEmpty(clientId))
-            return [
-                new ListItem(new NoOpCommand())
-                {
-                    Title = Resources.ResultMissingClientIdTitle,
-                    Subtitle = Resources.ResultMissingClientIdSubTitle
-                }
-            ];
-
+        {
+            EmptyContent = new CommandItem()
+            {
+                Title = Resources.ResultMissingClientIdTitle,
+                Subtitle = Resources.ResultMissingClientIdSubTitle,
+            };
+            return [];
+        }
 
         if (!File.Exists(_credentialsPath))
         {
             var loginCommand = new LoginCommand(clientId, _credentialsPath);
             loginCommand.LoggedIn += (_, _) => SearchAsync(search);
-
-            return [
-                new ListItem(loginCommand)
-                {
-                    Title = Resources.ResultLoginTitle,
-                    Subtitle = Resources.ResultLoginSubTitle
-                }
-            ];
+            EmptyContent = new CommandItem(loginCommand)
+            {
+                Title = Resources.ResultLoginTitle,
+                Subtitle = Resources.ResultLoginSubTitle,
+                Icon = Icons.Spotify,
+            };
+            return [];
         }
 
         if (_spotifyClient == null)
             _spotifyClient = await GetSpotifyClientAsync(clientId);
 
         if (string.IsNullOrEmpty(search.Trim()))
-            return GetPlayertItems();
+        {
+            EmptyContent = _defaultEmptyContent;
+            return [];
+        }
 
-        return await GetSearchItemsAsync(search);
+        try
+        {
+            var results = await GetSearchItemsAsync(search);
+            if (results.Count == 0)
+            {
+                EmptyContent = new CommandItem()
+                {
+                    Title = Resources.EmptyResultsTitle,
+                };
+            }
+            return results;
+        }
+        catch (Exception ex)
+        {
+            EmptyContent = new CommandItem() { 
+                Title = Resources.EmptyErrorTitle,
+            };
+        }
+        return [];
     }
 
     private async Task<SpotifyClient> GetSpotifyClientAsync(string clientId)
@@ -112,57 +142,22 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
     private List<ListItem> GetPlayertItems()
     {
+        return GetPlaybackCommands().Select(command => new ListItem(command)).ToList();
+    }
+
+    public List<Command> GetPlaybackCommands()
+    {
         return [
-            new ListItem(new TogglePlaybackCommand(_spotifyClient))
-            {
-                Title = Resources.ResultTogglePlaybackTitle,
-                Icon = Icons.PlayPause,
-            },
-            new ListItem(new PausePlaybackCommand(_spotifyClient))
-            {
-                Title = Resources.ResultPausePlaybackTitle,
-                Icon = Icons.Pause,
-            },
-            new ListItem(new ResumePlaybackCommand(_spotifyClient))
-            {
-                Title = Resources.ResultResumePlaybackTitle,
-                Icon = Icons.Play,
-            },
-            new ListItem(new SkipNextCommand(_spotifyClient))
-            {
-                Title = Resources.ResultNextTrackTitle,
-                Icon = Icons.Next,
-            },
-            new ListItem(new SkipPreviousCommand(_spotifyClient))
-            {
-                Title = Resources.ResultPreviousTrackTitle,
-                Icon = Icons.Previous,
-            },
-            new ListItem(new SetShuffleCommand(_spotifyClient, new(true)))
-            {
-                Title = Resources.ResultTurnOnShuffleTitle,
-                Icon = Icons.Shuffle,
-            },
-            new ListItem(new SetShuffleCommand(_spotifyClient, new(false)))
-            {
-                Title = Resources.ResultTurnOffShuffleTitle,
-                Icon = Icons.Shuffle,
-            },
-            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)))
-            {
-                Title = Resources.ResultSetRepeatTrackTitle,
-                Icon = Icons.Repeat,
-            },
-            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)))
-            {
-                Title = Resources.ResultSetRepeatContextTitle,
-                Icon = Icons.Repeat,
-            },
-            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)))
-            {
-                Title = Resources.ResultSetRepeatOffTitle,
-                Icon = Icons.Repeat,
-            },
+            new TogglePlaybackCommand(_spotifyClient),
+            new PausePlaybackCommand(_spotifyClient),
+            new ResumePlaybackCommand(_spotifyClient),
+            new SkipNextCommand(_spotifyClient),
+            new SkipPreviousCommand(_spotifyClient),
+            new SetShuffleCommand(_spotifyClient, new(true)),
+            new SetShuffleCommand(_spotifyClient, new(false)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)),
         ];
     }
 
@@ -182,7 +177,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, new PlayerResumePlaybackRequest() { Uris = [track.Uri] }))
                 {
                     Title = track.Name,
-                    Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
+                    Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" ï¿½ {Resources.ResultSongExplicitSubTitle}" : "")} ï¿½ {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
                     Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
                 })
             );

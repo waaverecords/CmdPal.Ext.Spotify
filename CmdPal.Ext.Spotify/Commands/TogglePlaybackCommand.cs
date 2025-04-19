@@ -1,4 +1,6 @@
-﻿using Microsoft.CommandPalette.Extensions.Toolkit;
+﻿using CmdPal.Ext.Spotify.Helpers;
+using CmdPal.Ext.Spotify.Properties;
+using Microsoft.CommandPalette.Extensions.Toolkit;
 using SpotifyAPI.Web;
 using System.Threading.Tasks;
 
@@ -8,6 +10,8 @@ internal sealed partial class TogglePlaybackCommand : PlayerCommand<PlayerResume
 {
     public TogglePlaybackCommand(SpotifyClient spotifyClient) : base(spotifyClient, new())
     {
+        Name = Resources.ResultTogglePlaybackTitle;
+        Icon = Icons.PlayPause;
     }
 
     protected override async Task InvokeAsync(IPlayerClient player, PlayerResumePlaybackRequest requestParams)

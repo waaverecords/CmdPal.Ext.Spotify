@@ -159,6 +159,9 @@
   <data name="ResultPausePlaybackTitle" xml:space="preserve">
     <value>Pause playback</value>
   </data>
+  <data name="ResultPlayName" xml:space="preserve">
+    <value>Play</value>
+  </data>
   <data name="ResultResumePlaybackTitle" xml:space="preserve">
     <value>Resume playback</value>
   </data>

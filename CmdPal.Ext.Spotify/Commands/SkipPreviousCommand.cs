@@ -1,4 +1,6 @@
-﻿using SpotifyAPI.Web;
+﻿using CmdPal.Ext.Spotify.Helpers;
+using CmdPal.Ext.Spotify.Properties;
+using SpotifyAPI.Web;
 using System.Threading.Tasks;
 
 namespace CmdPal.Ext.Spotify.Commands;
@@ -7,6 +9,8 @@ internal sealed partial class SkipPreviousCommand : PlayerCommand<PlayerSkipPrev
 {
     public SkipPreviousCommand(SpotifyClient spotifyClient) : base(spotifyClient, new())
     {
+        Name = Resources.ResultPreviousTrackTitle;
+        Icon = Icons.Previous;
     }
 
     protected override async Task InvokeAsync(IPlayerClient player, PlayerSkipPreviousRequest requestParams)
