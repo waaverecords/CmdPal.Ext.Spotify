@@ -112,57 +112,22 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
     private List<ListItem> GetPlayertItems()
     {
+        return GetPlaybackCommands().Select(command => new ListItem(command)).ToList();
+    }
+
+    public List<Command> GetPlaybackCommands()
+    {
         return [
-            new ListItem(new TogglePlaybackCommand(_spotifyClient))
-            {
-                Title = Resources.ResultTogglePlaybackTitle,
-                Icon = Icons.PlayPause,
-            },
-            new ListItem(new PausePlaybackCommand(_spotifyClient))
-            {
-                Title = Resources.ResultPausePlaybackTitle,
-                Icon = Icons.Pause,
-            },
-            new ListItem(new ResumePlaybackCommand(_spotifyClient))
-            {
-                Title = Resources.ResultResumePlaybackTitle,
-                Icon = Icons.Play,
-            },
-            new ListItem(new SkipNextCommand(_spotifyClient))
-            {
-                Title = Resources.ResultNextTrackTitle,
-                Icon = Icons.Next,
-            },
-            new ListItem(new SkipPreviousCommand(_spotifyClient))
-            {
-                Title = Resources.ResultPreviousTrackTitle,
-                Icon = Icons.Previous,
-            },
-            new ListItem(new SetShuffleCommand(_spotifyClient, new(true)))
-            {
-                Title = Resources.ResultTurnOnShuffleTitle,
-                Icon = Icons.Shuffle,
-            },
-            new ListItem(new SetShuffleCommand(_spotifyClient, new(false)))
-            {
-                Title = Resources.ResultTurnOffShuffleTitle,
-                Icon = Icons.Shuffle,
-            },
-            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)))
-            {
-                Title = Resources.ResultSetRepeatTrackTitle,
-                Icon = Icons.Repeat,
-            },
-            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)))
-            {
-                Title = Resources.ResultSetRepeatContextTitle,
-                Icon = Icons.Repeat,
-            },
-            new ListItem(new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)))
-            {
-                Title = Resources.ResultSetRepeatOffTitle,
-                Icon = Icons.Repeat,
-            },
+            new TogglePlaybackCommand(_spotifyClient),
+            new PausePlaybackCommand(_spotifyClient),
+            new ResumePlaybackCommand(_spotifyClient),
+            new SkipNextCommand(_spotifyClient),
+            new SkipPreviousCommand(_spotifyClient),
+            new SetShuffleCommand(_spotifyClient, new(true)),
+            new SetShuffleCommand(_spotifyClient, new(false)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)),
         ];
     }
 
@@ -182,7 +147,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, new PlayerResumePlaybackRequest() { Uris = [track.Uri] }))
                 {
                     Title = track.Name,
-                    Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
+                    Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" ï¿½ {Resources.ResultSongExplicitSubTitle}" : "")} ï¿½ {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
                     Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
                 })
             );
