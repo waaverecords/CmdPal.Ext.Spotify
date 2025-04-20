@@ -70,34 +70,16 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search for songs, albums, artists, playlists....
-        /// </summary>
-        internal static string EmptyContentSubtitle {
-            get {
-                return ResourceManager.GetString("EmptyContentSubtitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Search Spotify.
-        /// </summary>
-        internal static string EmptyContentTitle {
-            get {
-                return ResourceManager.GetString("EmptyContentTitle", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Error fetching from API.
+        ///   Looks up a localized string similar to An error occured..
         /// </summary>
         internal static string EmptyErrorTitle {
             get {
                 return ResourceManager.GetString("EmptyErrorTitle", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to No results found.
+        ///   Looks up a localized string similar to No item found..
         /// </summary>
         internal static string EmptyResultsTitle {
             get {
@@ -133,15 +115,6 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search Spotify.
-        /// </summary>
-        internal static string PageTitle {
-            get {
-                return ResourceManager.GetString("PageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Album.
         /// </summary>
         internal static string ResultAlbumSubTitle {
@@ -160,7 +133,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login to authorize the extension to use the Spotify API.
+        ///   Looks up a localized string similar to Login to authorize the extension to use the Spotify API..
         /// </summary>
         internal static string ResultLoginSubTitle {
             get {
@@ -178,7 +151,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set your client ID in the extension&apos;s settings.
+        ///   Looks up a localized string similar to Set your client ID in the extension&apos;s settings..
         /// </summary>
         internal static string ResultMissingClientIdSubTitle {
             get {
