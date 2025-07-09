@@ -184,7 +184,7 @@
     <value>Set repeat to off</value>
   </data>
   <data name="ContextMenuResultAddToQueueTitle" xml:space="preserve">
-    <value>Add to queue (Shift+Enter)</value>
+    <value>Add to queue</value>
   </data>
   <data name="ResultPlaylistSubTitle" xml:space="preserve">
     <value>Playlist</value>
