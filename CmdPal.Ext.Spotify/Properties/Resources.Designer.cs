@@ -61,7 +61,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add to queue (Shift+Enter).
+        ///   Looks up a localized string similar to Add to queue.
         /// </summary>
         internal static string ContextMenuResultAddToQueueTitle {
             get {

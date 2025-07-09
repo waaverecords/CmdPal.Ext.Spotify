@@ -3,15 +3,15 @@ using Microsoft.CommandPalette.Extensions.Toolkit;
 
 namespace CmdPal.Ext.Spotify.Helpers;
 
-public static class ContextCommands
+public static class ICommandExtensions
 {
-    public static CommandContextItem ToContextCommand(this ICommand command)
+    public static CommandContextItem ToCommandContextItem(this ICommand command)
     {
         return new CommandContextItem(command);
     }
     
     // This won't work yet. The feature on the sdk side is not yet available through nuget
-    public static CommandContextItem ToContextCommand(this ICommand command, KeyChord requestedShortcut)
+    public static CommandContextItem ToCommandContextItem(this ICommand command, KeyChord requestedShortcut)
     {
         return new CommandContextItem(command) { RequestedShortcut = requestedShortcut };
     }

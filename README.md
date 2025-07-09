@@ -6,6 +6,7 @@ This is an extension for [PowerToys](https://github.com/microsoft/PowerToys) [Co
 
 - Search for songs, albums, artists and playlists
 - Play songs, albums, artists and playlists
+- Add song to queue
 - Pause and resume track
 - Go to previous or next track
 - Turn shuffle on and off
