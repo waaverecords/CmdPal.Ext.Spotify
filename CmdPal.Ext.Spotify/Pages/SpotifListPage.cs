@@ -183,6 +183,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                     Title = album.Name,
                     Subtitle = Resources.ResultAlbumSubTitle,
                     Icon = new IconInfo(album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
+                    MoreCommands = [new AddAlbumToQueueCommand(_spotifyClient, album.Id).ToCommandContextItem()],
                 })
             );
 
