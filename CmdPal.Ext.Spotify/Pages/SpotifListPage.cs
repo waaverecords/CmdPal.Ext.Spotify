@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.System;
+using CmdPal.Ext.Spotify.Commands.QueueManagement;
 
 namespace CmdPal.Ext.Spotify.Pages;
 
@@ -183,6 +185,9 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                     Title = album.Name,
                     Subtitle = Resources.ResultAlbumSubTitle,
                     Icon = new IconInfo(album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
+                    MoreCommands = [
+                        new AddAlbumToQueueCommand(_spotifyClient, album.Id).ToCommandContextItem(), 
+                        new AlbumListPage(_spotifyClient, album).ToCommandContextItem(KeyChordHelper.FromModifiers(ctrl: true, vKey:VirtualKey.O))],
                 })
             );
 
@@ -204,6 +209,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                     Title = playlist.Name,
                     Subtitle = Resources.ResultPlaylistSubTitle,
                     Icon = new IconInfo(playlist.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
+                    MoreCommands = [new PlaylistListPage(_spotifyClient, playlist).ToCommandContextItem()]
                 })
             );
 
