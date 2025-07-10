@@ -172,7 +172,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                     Title = track.Name,
                     Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
                     Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
-                    MoreCommands = [new AddToQueueCommand(_spotifyClient, track.Uri).ToCommandContextItem()],
+                    MoreCommands = [new AddTrackToQueueCommand(_spotifyClient, track.Uri).ToCommandContextItem()],
                 })
             );
 
