@@ -5,15 +5,15 @@ using SpotifyAPI.Web;
 
 namespace CmdPal.Ext.Spotify.Commands;
 
-internal sealed partial class AddToQueueCommand : PlayerCommand<PlayerAddToQueueRequest>
+internal sealed partial class AddTrackToQueueCommand : PlayerCommand<PlayerAddToQueueRequest>
 {
-    public AddToQueueCommand(SpotifyClient spotifyClient, PlayerAddToQueueRequest requestParams) : base(spotifyClient, requestParams)
+    public AddTrackToQueueCommand(SpotifyClient spotifyClient, PlayerAddToQueueRequest requestParams) : base(spotifyClient, requestParams)
     {
         Name = Resources.ContextMenuResultAddToQueueTitle;
         Icon = Icons.Play;
     }
 
-    public AddToQueueCommand(SpotifyClient spotifyClient, string uri) : this(spotifyClient, new PlayerAddToQueueRequest(uri))
+    public AddTrackToQueueCommand(SpotifyClient spotifyClient, string uri) : this(spotifyClient, new PlayerAddToQueueRequest(uri))
     {
     }
 
