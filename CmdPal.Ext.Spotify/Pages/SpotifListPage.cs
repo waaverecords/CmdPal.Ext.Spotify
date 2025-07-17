@@ -208,7 +208,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 })
             );
 
-        if (searchResponse.Playlists.Items != null)
+        if (searchResponse.Playlists != null && searchResponse.Playlists.Items != null)
             results.AddRange(searchResponse.Playlists.Items.Where(playlist => playlist != null).Select(playlist =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, playlist.Uri))
                 {
