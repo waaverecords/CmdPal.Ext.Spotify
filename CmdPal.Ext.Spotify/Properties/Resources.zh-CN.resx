@@ -198,4 +198,13 @@
   <data name="EmptyResultsTitle" xml:space="preserve">
     <value>未找到任何商品。</value>
   </data>
+  <data name="ExtensionSettingFilterWildcardDescription" xml:space="preserve">
+    <value>用于添加过滤器的过滤器通配符，例如 /album 或 !album</value>
+  </data>
+  <data name="ExtensionSettingFilterWildcard" xml:space="preserve">
+    <value>过滤通配符</value>
+  </data>
+  <data name="ExtensionSettingClientId" xml:space="preserve">
+    <value>Client ID</value>
+  </data>
 </root>

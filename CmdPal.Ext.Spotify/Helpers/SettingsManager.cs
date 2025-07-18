@@ -20,7 +20,7 @@ public class SettingsManager : JsonSettingsManager
 
     private readonly TextSetting _clientId = new(
         Namespaced(nameof(ClientId)),
-        "Client ID",
+        Resources.ExtensionSettingClientId,
         Resources.ExtensionSettingClientIdDescription,
         string.Empty
     );

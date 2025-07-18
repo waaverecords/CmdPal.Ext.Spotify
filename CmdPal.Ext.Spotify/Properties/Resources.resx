@@ -235,7 +235,4 @@
   <data name="ExtensionSettingClientId" xml:space="preserve">
     <value>Client ID</value>
   </data>
-  <data name="EmptyFilteredResultsTitle" xml:space="preserve">
-    <value>No item found (filter applied).</value>
-  </data>
 </root>

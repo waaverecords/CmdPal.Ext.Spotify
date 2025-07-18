@@ -22,8 +22,8 @@ internal sealed partial class SpotifyListPage : DynamicListPage
     private string _credentialsPath;
     private SpotifyClient _spotifyClient;
     private Timer _debounceTimer;
-    private List<string> _neutralTypeFilters = new(["album", "artist", "playlist", "track"]);
-    private List<string> _localTypeFilters = new();
+    private List<string> _neutralTypeFilters = ["album", "artist", "playlist", "track"];
+    private List<string> _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeTrack];
 
     public SpotifyListPage(SettingsManager settingsManager)
     {
@@ -33,8 +33,6 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         _settingsManager = settingsManager;
         _settingsManager.Settings.SettingsChanged += (_, _) => SearchAsync(SearchText);
-
-        _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeTrack];
 
         var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CmdPal.Ext.Spotify");
         _credentialsPath = Path.Combine(appDataPath, "credentials.json");
@@ -104,21 +102,23 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         if (_spotifyClient == null)
             _spotifyClient = await GetSpotifyClientAsync(clientId);
 
-        var searchFilter = ApplySearchFilter(ref search);
+        if (string.IsNullOrEmpty(search.Trim()))
+        {
+            EmptyContent = _defaultEmptyContent;
+            return [];
+        }
+
+        (search, var searchTypes) = GetSearchTypes(search);
 
         if (string.IsNullOrEmpty(search.Trim()))
         {
-            if (searchFilter != SearchRequest.Types.All) EmptyContent = new CommandItem()
-            {
-                Title = Resources.EmptyFilteredResultsTitle,
-            };
-            else EmptyContent = _defaultEmptyContent;
+            EmptyContent = _defaultEmptyContent;
             return [];
         }
 
         try
         {
-            var results = await GetSearchItemsAsync(search, searchFilter);
+            var results = await GetSearchItemsAsync(search, searchTypes);
             if (results.Count == 0)
                 EmptyContent = new CommandItem()
                 {
@@ -165,18 +165,18 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         ];
     }
 
-    private async Task<List<ListItem>> GetSearchItemsAsync(string search, SearchRequest.Types searchParams)
+    private async Task<List<ListItem>> GetSearchItemsAsync(string search, SearchRequest.Types searchTypes)
     {
         var results = new List<ListItem>();
 
-        var searchRequest = new SearchRequest(searchParams, search)
+        var searchRequest = new SearchRequest(searchTypes, search)
         {
             Limit = 5
         };
 
         var searchResponse = await _spotifyClient.Search.Item(searchRequest);
 
-        if (searchResponse.Tracks != null && searchResponse.Tracks.Items != null)
+        if (searchResponse.Tracks?.Items != null)
             results.AddRange(searchResponse.Tracks.Items.Where(track => track != null).Select(track =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, new PlayerResumePlaybackRequest() { Uris = [track.Uri] }))
                 {
@@ -187,7 +187,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 })
             );
 
-        if (searchResponse.Albums != null && searchResponse.Albums.Items != null)
+        if (searchResponse.Albums?.Items != null)
             results.AddRange(searchResponse.Albums.Items.Where(album => album != null).Select(album =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, album.Uri))
                 {
@@ -198,7 +198,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             );
 
 
-        if (searchResponse.Artists != null && searchResponse.Artists.Items != null)
+        if (searchResponse.Artists?.Items != null)
             results.AddRange(searchResponse.Artists.Items.Where(artist => artist != null).Select(artist =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, artist.Uri))
                 {
@@ -208,7 +208,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 })
             );
 
-        if (searchResponse.Playlists != null && searchResponse.Playlists.Items != null)
+        if (searchResponse.Playlists?.Items != null)
             results.AddRange(searchResponse.Playlists.Items.Where(playlist => playlist != null).Select(playlist =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, playlist.Uri))
                 {
@@ -221,7 +221,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         return results;
     }
 
-    private SearchRequest.Types ApplySearchFilter(ref string search)
+    private (string, SearchRequest.Types) GetSearchTypes(string search)
     {
         var wildcard = _settingsManager.FilterWildcard;
         /* 
@@ -238,14 +238,14 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             var types = new List<string>();
             foreach (var match in matches)
             {
-                var value = match.ToString().Substring(1);
-                var index = _localTypeFilters.FindIndex((e) => e == value);
+                var type = match.ToString().Substring(1);
+                var index = _localTypeFilters.FindIndex((e) => e == type);
                 types.Add(_neutralTypeFilters[index]);
             }
-            bool test = Enum.TryParse(String.Join(", ", types), true, out searchFilter);
-            search = Regex.Replace(search, typePattern, "").Trim();
+            Enum.TryParse(String.Join(", ", types), true, out searchFilter);
+            search = Regex.Replace(search, typePattern, string.Empty).Trim();
         }
 
-        return searchFilter;
+        return (search, searchFilter);
     }
 }

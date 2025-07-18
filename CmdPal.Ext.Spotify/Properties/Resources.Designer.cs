@@ -79,15 +79,6 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No item found (filter applied)..
-        /// </summary>
-        internal static string EmptyFilteredResultsTitle {
-            get {
-                return ResourceManager.GetString("EmptyFilteredResultsTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No item found..
         /// </summary>
         internal static string EmptyResultsTitle {
@@ -111,6 +102,15 @@ namespace CmdPal.Ext.Spotify.Properties {
         internal static string ExtensionDisplayName {
             get {
                 return ResourceManager.GetString("ExtensionDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client ID.
+        /// </summary>
+        internal static string ExtensionSettingClientId {
+            get {
+                return ResourceManager.GetString("ExtensionSettingClientId", resourceCulture);
             }
         }
         
