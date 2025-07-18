@@ -198,4 +198,44 @@
   <data name="EmptyResultsTitle" xml:space="preserve">
     <value>No item found.</value>
   </data>
+  <data name="ExtensionSettingFilterWildcardDescription" xml:space="preserve">
+    <value>Filter wildcard character used to prepend a filter, e.g. /album or !album</value>
+  </data>
+  <data name="ExtensionSettingFilterWildcard" xml:space="preserve">
+    <value>Filter Wildcard</value>
+  </data>
+  <data name="SearchTypeAlbum" xml:space="preserve">
+    <value>album</value>
+    <comment>Argument supported by 'Search for Item'::Types</comment>
+  </data>
+  <data name="SearchTypeArtist" xml:space="preserve">
+    <value>artist</value>
+    <comment>Argument supported by 'Search for Item'::Types</comment>
+  </data>
+  <data name="SearchTypePlaylist" xml:space="preserve">
+    <value>playlist</value>
+    <comment>Argument supported by 'Search for Item'::Types</comment>
+  </data>
+  <data name="SearchTypeTrack" xml:space="preserve">
+    <value>track</value>
+    <comment>Argument supported by 'Search for Item'::Types</comment>
+  </data>
+  <data name="SearchTypeShow" xml:space="preserve">
+    <value>show</value>
+    <comment>Argument supported by 'Search for Item'::Types</comment>
+  </data>
+  <data name="SearchTypeEpisode" xml:space="preserve">
+    <value>episode</value>
+    <comment>Argument supported by 'Search for Item'::Types</comment>
+  </data>
+  <data name="SearchTypeAudiobook" xml:space="preserve">
+    <value>audiobook</value>
+    <comment>Argument supported by 'Search for Item'::Types</comment>
+  </data>
+  <data name="ExtensionSettingClientId" xml:space="preserve">
+    <value>Client ID</value>
+  </data>
+  <data name="EmptyFilteredResultsTitle" xml:space="preserve">
+    <value>No item found (filter applied).</value>
+  </data>
 </root>
