@@ -12,6 +12,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Windows.System;
+using CmdPal.Ext.Spotify.Commands.QueueManagement;
+using AddTrackToQueueCommand = CmdPal.Ext.Spotify.Commands.QueueManagement.AddTrackToQueueCommand;
 
 namespace CmdPal.Ext.Spotify.Pages;
 
@@ -183,7 +186,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                     Title = track.Name,
                     Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
                     Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
-                    MoreCommands = [new AddToQueueCommand(_spotifyClient, track.Uri).ToCommandContextItem()],
+                    MoreCommands = [new AddTrackToQueueCommand(_spotifyClient, track.Uri).ToCommandContextItem()],
                 })
             );
 
@@ -194,6 +197,9 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                     Title = album.Name,
                     Subtitle = Resources.ResultAlbumSubTitle,
                     Icon = new IconInfo(album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
+                    MoreCommands = [
+                        new AddAlbumToQueueCommand(_spotifyClient, album.Id).ToCommandContextItem(), 
+                        new AlbumListPage(_spotifyClient, album).ToCommandContextItem(KeyChordHelper.FromModifiers(ctrl: true, vKey:VirtualKey.O))],
                 })
             );
 
@@ -215,6 +221,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                     Title = playlist.Name,
                     Subtitle = Resources.ResultPlaylistSubTitle,
                     Icon = new IconInfo(playlist.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
+                    MoreCommands = [new PlaylistListPage(_spotifyClient, playlist).ToCommandContextItem()]
                 })
             );
 
