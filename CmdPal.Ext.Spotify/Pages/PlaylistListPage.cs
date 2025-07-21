@@ -6,6 +6,7 @@ using CmdPal.Ext.Spotify.Helpers;
 using CmdPal.Ext.Spotify.Properties;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 using SpotifyAPI.Web;
+using AddTrackToQueueCommand = CmdPal.Ext.Spotify.Commands.QueueManagement.AddTrackToQueueCommand;
 
 namespace CmdPal.Ext.Spotify.Pages;
 

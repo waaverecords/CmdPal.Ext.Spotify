@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Windows.System;
 using CmdPal.Ext.Spotify.Commands.QueueManagement;
+using AddTrackToQueueCommand = CmdPal.Ext.Spotify.Commands.QueueManagement.AddTrackToQueueCommand;
 
 namespace CmdPal.Ext.Spotify.Pages;
 

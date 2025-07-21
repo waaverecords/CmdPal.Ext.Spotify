@@ -12,8 +12,7 @@ internal sealed partial class AddAlbumToQueueCommand : AddTrackCollectionToQueue
     public AddAlbumToQueueCommand(SpotifyClient spotifyClient, string albumId) : base(spotifyClient, new CustomRequests.PlayerAddTrackCollectionToQueueRequest(GetAlbumTracksSupplier(spotifyClient, albumId)))
     {
         Name = Resources.ContextMenuResultAddToQueueTitle;
-        // TODO Use queue icon
-        Icon = Icons.Play;
+        Icon = Icons.AddQueue;
     }
 
     private static Func<Task<PlayerAddToQueueRequest[]>> GetAlbumTracksSupplier(SpotifyClient spotifyClient, string albumId)

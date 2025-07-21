@@ -3,7 +3,7 @@ using CmdPal.Ext.Spotify.Helpers;
 using CmdPal.Ext.Spotify.Properties;
 using SpotifyAPI.Web;
 
-namespace CmdPal.Ext.Spotify.Commands;
+namespace CmdPal.Ext.Spotify.Commands.QueueManagement;
 
 internal sealed partial class AddTrackToQueueCommand : PlayerCommand<PlayerAddToQueueRequest>
 {
