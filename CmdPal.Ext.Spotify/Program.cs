@@ -1,3 +1,4 @@
+using CmdPal.Ext.Spotify.Helpers;
 using Microsoft.CommandPalette.Extensions;
 using Shmuelie.WinRTServer;
 using Shmuelie.WinRTServer.CsWinRT;
@@ -25,7 +26,7 @@ public class Program
         }
         else
         {
-            Console.WriteLine("Not being launched as a Extension... exiting.");
+            Journal.Append($"Not being launched as a Extension... exiting; args: {Newtonsoft.Json.JsonConvert.SerializeObject(args)}");
         }
     }
 }

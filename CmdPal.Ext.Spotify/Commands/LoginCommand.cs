@@ -1,11 +1,14 @@
-﻿using Microsoft.CommandPalette.Extensions.Toolkit;
-using SpotifyAPI.Web.Auth;
-using SpotifyAPI.Web;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using System.IO;
+﻿using CmdPal.Ext.Spotify.Helpers;
+using CmdPal.Ext.Spotify.Properties;
+using Microsoft.CommandPalette.Extensions;
+using Microsoft.CommandPalette.Extensions.Toolkit;
 using Newtonsoft.Json;
+using SpotifyAPI.Web;
+using SpotifyAPI.Web.Auth;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace CmdPal.Ext.Spotify.Commands;
 
@@ -63,7 +66,10 @@ internal partial class LoginCommand : InvokableCommand
             Scope = new List<string>
             {
                 Scopes.UserReadPlaybackState,
-                Scopes.UserModifyPlaybackState
+                Scopes.UserModifyPlaybackState,
+                Scopes.UserReadCurrentlyPlaying,
+                Scopes.UserTopRead,
+                Scopes.UserReadEmail
             }
         };
 
@@ -71,9 +77,10 @@ internal partial class LoginCommand : InvokableCommand
         {
             BrowserUtil.Open(loginRequest.ToUri());
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // TODO: notify user somehow?
+            new ToastStatusMessage(new StatusMessage() { Message = Resources.ErrorLoginToast, State = MessageState.Error }).Show();
+            Journal.Append($"Failed to login: {ex.Message}", label: Journal.Label.Error);
             return;
         }
 
