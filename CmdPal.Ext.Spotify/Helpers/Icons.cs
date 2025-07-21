@@ -14,5 +14,9 @@ internal sealed class Icons
     internal static IconInfo Repeat { get; } = FromRelativePath("repeat.png");
     internal static IconInfo Shuffle { get; } = FromRelativePath("shuffle.png");
     internal static IconInfo AddQueue { get; } = FromRelativePath("add-queue.png");
-    internal static IconInfo Spotify { get; } = FromRelativePath("Spotify.png");
+    internal static IconInfo Spotify { get; } = FromRelativePath("spotify.png");
+    internal static IconInfo Device { get; } = FromRelativePath("device.png");
+    internal static IconInfo Speaker { get; } = FromRelativePath("speaker.png");
+    internal static IconInfo Album { get; } = FromRelativePath("album.png");
+
 }
