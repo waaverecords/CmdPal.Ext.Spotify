@@ -10,7 +10,7 @@ internal sealed partial class AddTrackToQueueCommand : PlayerCommand<PlayerAddTo
     public AddTrackToQueueCommand(SpotifyClient spotifyClient, PlayerAddToQueueRequest requestParams) : base(spotifyClient, requestParams)
     {
         Name = Resources.ContextMenuResultAddToQueueTitle;
-        Icon = Icons.Play;
+        Icon = Icons.AddQueue;
     }
 
     public AddTrackToQueueCommand(SpotifyClient spotifyClient, string uri) : this(spotifyClient, new PlayerAddToQueueRequest(uri))

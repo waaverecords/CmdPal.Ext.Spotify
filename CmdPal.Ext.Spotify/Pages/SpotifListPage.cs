@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Windows.System;
 using CmdPal.Ext.Spotify.Commands.QueueManagement;
 
@@ -23,6 +24,8 @@ internal sealed partial class SpotifyListPage : DynamicListPage
     private string _credentialsPath;
     private SpotifyClient _spotifyClient;
     private Timer _debounceTimer;
+    private List<string> _neutralTypeFilters = ["album", "artist", "playlist", "track"];
+    private List<string> _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeTrack];
 
     public SpotifyListPage(SettingsManager settingsManager)
     {
@@ -107,9 +110,17 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             return [];
         }
 
+        (search, var searchTypes) = GetSearchTypes(search);
+
+        if (string.IsNullOrEmpty(search.Trim()))
+        {
+            EmptyContent = _defaultEmptyContent;
+            return [];
+        }
+
         try
         {
-            var results = await GetSearchItemsAsync(search);
+            var results = await GetSearchItemsAsync(search, searchTypes);
             if (results.Count == 0)
                 EmptyContent = new CommandItem()
                 {
@@ -156,18 +167,18 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         ];
     }
 
-    private async Task<List<ListItem>> GetSearchItemsAsync(string search)
+    private async Task<List<ListItem>> GetSearchItemsAsync(string search, SearchRequest.Types searchTypes)
     {
         var results = new List<ListItem>();
 
-        var searchRequest = new SearchRequest(SearchRequest.Types.All, search)
+        var searchRequest = new SearchRequest(searchTypes, search)
         {
             Limit = 5
         };
 
         var searchResponse = await _spotifyClient.Search.Item(searchRequest);
 
-        if (searchResponse.Tracks.Items != null)
+        if (searchResponse.Tracks?.Items != null)
             results.AddRange(searchResponse.Tracks.Items.Where(track => track != null).Select(track =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, new PlayerResumePlaybackRequest() { Uris = [track.Uri] }))
                 {
@@ -178,7 +189,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 })
             );
 
-        if (searchResponse.Albums.Items != null)
+        if (searchResponse.Albums?.Items != null)
             results.AddRange(searchResponse.Albums.Items.Where(album => album != null).Select(album =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, album.Uri))
                 {
@@ -192,7 +203,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             );
 
 
-        if (searchResponse.Artists.Items != null)
+        if (searchResponse.Artists?.Items != null)
             results.AddRange(searchResponse.Artists.Items.Where(artist => artist != null).Select(artist =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, artist.Uri))
                 {
@@ -202,7 +213,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
                 })
             );
 
-        if (searchResponse.Playlists.Items != null)
+        if (searchResponse.Playlists?.Items != null)
             results.AddRange(searchResponse.Playlists.Items.Where(playlist => playlist != null).Select(playlist =>
                 new ListItem(new ResumePlaybackCommand(_spotifyClient, playlist.Uri))
                 {
@@ -214,5 +225,33 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             );
 
         return results;
+    }
+
+    private (string, SearchRequest.Types) GetSearchTypes(string search)
+    {
+        var wildcard = _settingsManager.FilterWildcard;
+        /* 
+         * This pattern filters results using the 'types' parameter.
+         * Allowed values: "album", "artist", "playlist", "track", "show", "episode", "audiobook"
+        */
+        var typePattern = $"{wildcard}({String.Join("|", _localTypeFilters)})";
+
+        var searchFilter = SearchRequest.Types.All;
+
+        if (Regex.IsMatch(search, typePattern))
+        {
+            var matches = Regex.Matches(search, typePattern);
+            var types = new List<string>();
+            foreach (var match in matches)
+            {
+                var type = match.ToString().Substring(1);
+                var index = _localTypeFilters.FindIndex((e) => e == type);
+                types.Add(_neutralTypeFilters[index]);
+            }
+            Enum.TryParse(String.Join(", ", types), true, out searchFilter);
+            search = Regex.Replace(search, typePattern, string.Empty).Trim();
+        }
+
+        return (search, searchFilter);
     }
 }

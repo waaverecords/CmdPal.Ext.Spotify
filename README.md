@@ -2,6 +2,10 @@
 
 This is an extension for [PowerToys](https://github.com/microsoft/PowerToys) [Command Palette](https://learn.microsoft.com/en-us/windows/powertoys/command-palette/overview) that allows you to search Spotify and control its player.
 
+<p align="center">
+    <img src="./demo.gif" width="760" />
+</p>
+
 ## Features
 
 - Search for songs, albums, artists and playlists

@@ -20,18 +20,28 @@ public class SettingsManager : JsonSettingsManager
 
     private readonly TextSetting _clientId = new(
         Namespaced(nameof(ClientId)),
-        "Client ID",
+        Resources.ExtensionSettingClientId,
         Resources.ExtensionSettingClientIdDescription,
         string.Empty
     );
 
     public string ClientId => _clientId.Value;
 
+    private readonly TextSetting _filterWildcard = new(
+        Namespaced(nameof(FilterWildcard)),
+        Resources.ExtensionSettingFilterWildcard,
+        Resources.ExtensionSettingFilterWildcardDescription,
+        "/"
+    );
+
+    public string FilterWildcard => _filterWildcard.Value;
+
     public SettingsManager()
     {
         FilePath = SettingsJsonPath();
 
         Settings.Add(_clientId);
+        Settings.Add(_filterWildcard);
 
         LoadSettings();
 
