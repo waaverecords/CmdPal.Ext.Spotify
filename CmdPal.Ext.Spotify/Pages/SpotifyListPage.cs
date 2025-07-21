@@ -9,9 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+using Windows.Media.Protection.PlayReady;
 
 namespace CmdPal.Ext.Spotify.Pages;
 
@@ -23,7 +24,9 @@ internal sealed partial class SpotifyListPage : DynamicListPage
     private SpotifyClient _spotifyClient;
     private Timer _debounceTimer;
     private List<string> _neutralTypeFilters = ["album", "artist", "playlist", "track"];
-    private List<string> _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeSong];
+    private List<string> _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeTrack];
+    private Lazy<List<Command>> _cachedPlayerCommands;
+    private PrivateUser _profile;
 
     public SpotifyListPage(SettingsManager settingsManager)
     {
@@ -37,17 +40,20 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CmdPal.Ext.Spotify");
         _credentialsPath = Path.Combine(appDataPath, "credentials.json");
 
+        _cachedPlayerCommands = new Lazy<List<Command>>(GetPlayerCommands);
         _items = [.. GetItems(string.Empty).GetAwaiter().GetResult()];
 
         EmptyContent = _defaultEmptyContent;
     }
 
-    private CommandItem _defaultEmptyContent => new(GetPlayerCommands()[0])
+    private CommandItem _defaultEmptyContent => new(_cachedPlayerCommands.Value[0])
     {
         Title = Resources.ExtensionDisplayName,
-        Subtitle = Resources.ExtensionDescription,
+        Subtitle = _profile != null
+            ? String.Format(Resources.ExtensionStatusDescription, _profile.DisplayName, _profile.Email)
+            : Resources.ExtensionDescription,
         Icon = Icons.Spotify,
-        MoreCommands = GetPlayerCommands().Skip(1).Select(command => new CommandContextItem(command)).ToArray(),
+        MoreCommands = _cachedPlayerCommands.Value.Skip(1).Select(command => new CommandContextItem(command)).ToArray(),
     };
 
     public override IListItem[] GetItems() => [.. _items];
@@ -89,7 +95,30 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         if (!File.Exists(_credentialsPath))
         {
             var loginCommand = new LoginCommand(clientId, _credentialsPath);
-            loginCommand.LoggedIn += (_, _) => SearchAsync(search);
+            loginCommand.LoggedIn += async (_, _) =>
+            {
+                try
+                {
+                    if (_spotifyClient == null)
+                        _spotifyClient = await GetSpotifyClientAsync(clientId);
+                    this._profile = await _spotifyClient.UserProfile.Current();
+                    new ToastStatusMessage(new StatusMessage()
+                    {
+                        Message = String.Format(Resources.LoginSuccessToast, _profile.DisplayName, _profile.Email),
+                        State = MessageState.Success
+                    }).Show();
+                }
+                catch (Exception ex)
+                {
+                    new ToastStatusMessage(new StatusMessage()
+                    {
+                        Message = Resources.LoginUserInfoEmptyToast,
+                        State = MessageState.Warning
+                    }).Show();
+                    Journal.Append($"{Resources.LoginUserInfoEmptyToast}: {ex.Message}: {JsonConvert.SerializeObject(this)}");
+                }
+                RefreshCommandList();
+            };
             EmptyContent = new CommandItem(loginCommand)
             {
                 Title = Resources.ResultLoginTitle,
@@ -118,7 +147,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
         try
         {
-            var results = await GetSearchItemsAsync(search, searchTypes);
+          var results = await GetSearchItemsAsync(search, searchTypes);
             if (results.Count == 0)
                 EmptyContent = new CommandItem()
                 {
@@ -128,7 +157,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         }
         catch (Exception ex)
         {
-            EmptyContent = new CommandItem() { 
+            EmptyContent = new CommandItem() {
                 Title = Resources.EmptyErrorTitle,
             };
         }
@@ -151,7 +180,14 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
     public List<Command> GetPlayerCommands()
     {
-        return [
+        var clientId = _settingsManager.ClientId;
+        if (_spotifyClient == null && !string.IsNullOrEmpty(clientId))
+            _spotifyClient = Task.Run(() => GetSpotifyClientAsync(clientId)).Wait(TimeSpan.FromSeconds(3))
+                                ? GetSpotifyClientAsync(clientId).Result
+                                : null;
+
+        var commands = new List<Command>
+        {
             new TogglePlaybackCommand(_spotifyClient),
             new PausePlaybackCommand(_spotifyClient),
             new ResumePlaybackCommand(_spotifyClient),
@@ -162,7 +198,53 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)),
             new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)),
             new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)),
-        ];
+            new TopTrackPage(_spotifyClient)
+        };
+
+        if (_spotifyClient != null)
+        {
+            try
+            {
+                var devices = _spotifyClient.Player.GetAvailableDevices().Result;
+                Cache.SaveDevices(devices.Devices);
+                foreach (var device in devices.Devices)
+                {
+                    commands.Add(new TransferPlaybackCommand(_spotifyClient, device.Id, device.Name));
+                }
+                new ToastStatusMessage(new StatusMessage() { Message = Resources.DeviceCacheSavedToast, State = MessageState.Info }).Show();
+            }
+            catch (Exception ex)
+            {
+                new ToastStatusMessage(new StatusMessage() { Message = Resources.DeviceCacheErrorToast, State = MessageState.Error }).Show();
+                Journal.Append($"Could not use devices cache: {ex.Message}", label: Journal.Label.Error);
+
+                var cached = CmdPal.Ext.Spotify.Helpers.Cache.LoadDevices();
+                foreach (var device in cached)
+                {
+                    commands.Add(new TransferPlaybackCommand(_spotifyClient, device.Id, device.Name));
+                }
+            }
+        }
+        return commands;
+    }
+
+    private void RefreshCommandList()
+    {
+        _spotifyClient = null; // reset to allow re-auth'd client
+        _cachedPlayerCommands = new(() => GetPlayerCommands()); // refresh device commands
+
+        // Reset top-level UI
+        EmptyContent = _defaultEmptyContent;
+
+        // Re-run search if applicable
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            _ = Task.Run(() => SearchAsync(SearchText));
+        }
+        else
+        {
+            RaiseItemsChanged(0);
+        }
     }
 
     private async Task<List<ListItem>> GetSearchItemsAsync(string search, SearchRequest.Types searchTypes)
@@ -177,47 +259,13 @@ internal sealed partial class SpotifyListPage : DynamicListPage
         var searchResponse = await _spotifyClient.Search.Item(searchRequest);
 
         if (searchResponse.Tracks?.Items != null)
-            results.AddRange(searchResponse.Tracks.Items.Where(track => track != null).Select(track =>
-                new ListItem(new ResumePlaybackCommand(_spotifyClient, new PlayerResumePlaybackRequest() { Uris = [track.Uri] }))
-                {
-                    Title = track.Name,
-                    Subtitle = $"{Resources.ResultSongSubTitle}{(track.Explicit ? $" • {Resources.ResultSongExplicitSubTitle}" : "")} • {Resources.ResultSongBySubTitle} {string.Join(", ", track.Artists.Select(x => x.Name))}",
-                    Icon = new IconInfo(track.Album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
-                    MoreCommands = [new AddToQueueCommand(_spotifyClient, track).ToCommandContextItem()],
-                })
-            );
-
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Track.ListItems(searchResponse.Tracks.Items, _spotifyClient));
         if (searchResponse.Albums?.Items != null)
-            results.AddRange(searchResponse.Albums.Items.Where(album => album != null).Select(album =>
-                new ListItem(new ResumePlaybackCommand(_spotifyClient, album.Uri))
-                {
-                    Title = album.Name,
-                    Subtitle = Resources.ResultAlbumSubTitle,
-                    Icon = new IconInfo(album.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
-                    MoreCommands = [new AddToQueueCommand(_spotifyClient, album).ToCommandContextItem()],
-                })
-            );
-
-
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Album.ListItems(searchResponse.Albums.Items, _spotifyClient));
         if (searchResponse.Artists?.Items != null)
-            results.AddRange(searchResponse.Artists.Items.Where(artist => artist != null).Select(artist =>
-                new ListItem(new ResumePlaybackCommand(_spotifyClient, artist.Uri))
-                {
-                    Title = artist.Name,
-                    Subtitle = Resources.ResultArtistSubTitle,
-                    Icon = new IconInfo(artist.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
-                })
-            );
-
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Artist.ListItems(searchResponse.Artists.Items, _spotifyClient));
         if (searchResponse.Playlists?.Items != null)
-            results.AddRange(searchResponse.Playlists.Items.Where(playlist => playlist != null).Select(playlist =>
-                new ListItem(new ResumePlaybackCommand(_spotifyClient, playlist.Uri))
-                {
-                    Title = playlist.Name,
-                    Subtitle = Resources.ResultPlaylistSubTitle,
-                    Icon = new IconInfo(playlist.Images.OrderBy(x => x.Width * x.Height).FirstOrDefault()?.Url),
-                })
-            );
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Playlist.ListItems(searchResponse.Playlists.Items, _spotifyClient));
 
         return results;
     }

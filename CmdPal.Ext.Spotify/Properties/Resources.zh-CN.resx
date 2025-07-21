@@ -228,4 +228,53 @@
   <data name="ExtensionSettingClientId" xml:space="preserve">
     <value>Client ID</value>
   </data>
+  <data name="ContextMenuResultGoToAlbumTitle" xml:space="preserve">
+    <value> 前往专辑</value>
+  </data>
+  <data name="DeviceCacheErrorToast" xml:space="preserve">
+    <value>无法刷新可用设备</value>
+  </data>
+  <data name="DeviceCacheSavedToast" xml:space="preserve">
+    <value>可用设备已刷新</value>
+  </data>
+  <data name="ErrorAddToQueueToast" xml:space="preserve">
+    <value>无法添加到播放队列</value>
+  </data>
+  <data name="ErrorJournalAppend" xml:space="preserve">
+    <value>无法写入会话日志</value>
+  </data>
+  <data name="ErrorLoadingTopTracksTitle" xml:space="preserve">
+    <value>無法載入熱門曲目</value>
+  </data>
+  <data name="ErrorLoadingTracksTitle" xml:space="preserve">
+    <value>无法加载曲目</value>
+  </data>
+  <data name="ErrorLoginToast" xml:space="preserve">
+    <value>无法登录</value>
+  </data>
+  <data name="ExtensionStatusDescription" xml:space="preserve">
+    <value>搜索歌曲与控制 Spotify
+身份：{0}（{1}）</value>
+  </data>
+  <data name="LoginSuccessToast" xml:space="preserve">
+    <value>🎧 已登录为 {0}（{1}）</value>
+  </data>
+  <data name="LoginUserInfoEmptyToast" xml:space="preserve">
+    <value>✅ 已登录，但获取用户信息失败</value>
+  </data>
+  <data name="PlayerCommandDeviceRetrievalFailedEx" xml:space="preserve">
+    <value>设备选择失败：缓存与 API 查询均无效</value>
+  </data>
+  <data name="PlayerCommandDeviceSelectionFailedEx" xml:space="preserve">
+    <value>无法从 Spotify API 中选择有效设备</value>
+  </data>
+  <data name="PlayerCommandSessionHealingToast" xml:space="preserve">
+    <value>正在刷新过期的会话…</value>
+  </data>
+  <data name="TopTracksTitle" xml:space="preserve">
+    <value>您的熱門曲目</value>
+  </data>
+  <data name="TransferPlaybackCommandName" xml:space="preserve">
+    <value>传输至 {0}</value>
+  </data>
 </root>
