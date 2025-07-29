@@ -151,47 +151,11 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Album.
-        /// </summary>
-        internal static string ResultAlbumTypeAlbum {
-            get {
-                return ResourceManager.GetString("ResultAlbumTypeAlbum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Compilation.
-        /// </summary>
-        internal static string ResultAlbumTypeCompilation {
-            get {
-                return ResourceManager.GetString("ResultAlbumTypeCompilation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Single.
-        /// </summary>
-        internal static string ResultAlbumTypeSingle {
-            get {
-                return ResourceManager.GetString("ResultAlbumTypeSingle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Artist.
         /// </summary>
         internal static string ResultArtistSubTitle {
             get {
                 return ResourceManager.GetString("ResultArtistSubTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Episode.
-        /// </summary>
-        internal static string ResultEpisodeSubTitle {
-            get {
-                return ResourceManager.GetString("ResultEpisodeSubTitle", resourceCulture);
             }
         }
         
