@@ -204,6 +204,27 @@
   <data name="ExtensionSettingFilterWildcard" xml:space="preserve">
     <value>过滤通配符</value>
   </data>
+  <data name="SearchTypeAlbum" xml:space="preserve">
+    <value>专辑</value>
+  </data>
+  <data name="SearchTypeArtist" xml:space="preserve">
+    <value>艺术家</value>
+  </data>
+  <data name="SearchTypePlaylist" xml:space="preserve">
+    <value>播放列表</value>
+  </data>
+  <data name="SearchTypeSong" xml:space="preserve">
+    <value>歌曲</value>
+  </data>
+  <data name="SearchTypeShow" xml:space="preserve">
+    <value>展示</value>
+  </data>
+  <data name="SearchTypeEpisode" xml:space="preserve">
+    <value>插曲</value>
+  </data>
+  <data name="SearchTypeAudiobook" xml:space="preserve">
+    <value>有声读物</value>
+  </data>
   <data name="ExtensionSettingClientId" xml:space="preserve">
     <value>Client ID</value>
   </data>

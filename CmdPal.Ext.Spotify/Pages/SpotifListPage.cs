@@ -23,7 +23,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
     private SpotifyClient _spotifyClient;
     private Timer _debounceTimer;
     private List<string> _neutralTypeFilters = ["album", "artist", "playlist", "track"];
-    private List<string> _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeTrack];
+    private List<string> _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeSong];
 
     public SpotifyListPage(SettingsManager settingsManager)
     {

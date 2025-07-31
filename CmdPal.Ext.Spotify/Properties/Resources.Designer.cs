@@ -385,11 +385,11 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to track.
+        ///   Looks up a localized string similar to song.
         /// </summary>
-        internal static string SearchTypeTrack {
+        internal static string SearchTypeSong {
             get {
-                return ResourceManager.GetString("SearchTypeTrack", resourceCulture);
+                return ResourceManager.GetString("SearchTypeSong", resourceCulture);
             }
         }
     }
