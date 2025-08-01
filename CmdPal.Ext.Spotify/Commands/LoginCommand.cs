@@ -7,6 +7,7 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -80,7 +81,7 @@ internal partial class LoginCommand : InvokableCommand
         catch (Exception ex)
         {
             new ToastStatusMessage(new StatusMessage() { Message = Resources.ErrorLoginToast, State = MessageState.Error }).Show();
-            Journal.Append($"Failed to login: {ex.Message}", label: Journal.Label.Error);
+            Journal.Append($"{Resources.ResourceManager.GetString("ErrorLoginToast", CultureInfo.InvariantCulture)}: {ex.Message}", label: Journal.Label.Error);
             return;
         }
 

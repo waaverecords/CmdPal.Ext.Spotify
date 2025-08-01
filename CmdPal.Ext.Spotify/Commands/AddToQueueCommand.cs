@@ -5,6 +5,7 @@ using Microsoft.CommandPalette.Extensions.Toolkit;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace CmdPal.Ext.Spotify.Commands
                     Message = Resources.ErrorAddToQueueToast,
                     State = MessageState.Error
                 }).Show();
-                Journal.Append($"Add to queue failed: {ex.Message}", label: Journal.Label.Error);
+                Journal.Append($"{Resources.ResourceManager.GetString("ErrorAddToQueueToast", CultureInfo.InvariantCulture)}: {ex.Message}", label: Journal.Label.Error);
             }
         }
     }
