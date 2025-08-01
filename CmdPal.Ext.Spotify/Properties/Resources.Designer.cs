@@ -19,10 +19,10 @@ namespace CmdPal.Ext.Spotify.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CmdPal.Ext.Spotify.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Add to queue.
         /// </summary>
-        public static string ContextMenuResultAddToQueueTitle {
+        internal static string ContextMenuResultAddToQueueTitle {
             get {
                 return ResourceManager.GetString("ContextMenuResultAddToQueueTitle", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Go to album.
         /// </summary>
-        public static string ContextMenuResultGoToAlbumTitle {
+        internal static string ContextMenuResultGoToAlbumTitle {
             get {
                 return ResourceManager.GetString("ContextMenuResultGoToAlbumTitle", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not refresh available devices.
         /// </summary>
-        public static string DeviceCacheErrorToast {
+        internal static string DeviceCacheErrorToast {
             get {
                 return ResourceManager.GetString("DeviceCacheErrorToast", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Refreshed available devices.
         /// </summary>
-        public static string DeviceCacheSavedToast {
+        internal static string DeviceCacheSavedToast {
             get {
                 return ResourceManager.GetString("DeviceCacheSavedToast", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An error occured..
         /// </summary>
-        public static string EmptyErrorTitle {
+        internal static string EmptyErrorTitle {
             get {
                 return ResourceManager.GetString("EmptyErrorTitle", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No item found..
         /// </summary>
-        public static string EmptyResultsTitle {
+        internal static string EmptyResultsTitle {
             get {
                 return ResourceManager.GetString("EmptyResultsTitle", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not Add to queue.
         /// </summary>
-        public static string ErrorAddToQueueToast {
+        internal static string ErrorAddToQueueToast {
             get {
                 return ResourceManager.GetString("ErrorAddToQueueToast", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not write session log.
         /// </summary>
-        public static string ErrorJournalAppend {
+        internal static string ErrorJournalAppend {
             get {
                 return ResourceManager.GetString("ErrorJournalAppend", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not load top tracks.
         /// </summary>
-        public static string ErrorLoadingTopTracksTitle {
+        internal static string ErrorLoadingTopTracksTitle {
             get {
                 return ResourceManager.GetString("ErrorLoadingTopTracksTitle", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not load tracks.
         /// </summary>
-        public static string ErrorLoadingTracksTitle {
+        internal static string ErrorLoadingTracksTitle {
             get {
                 return ResourceManager.GetString("ErrorLoadingTracksTitle", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not log in..
         /// </summary>
-        public static string ErrorLoginToast {
+        internal static string ErrorLoginToast {
             get {
                 return ResourceManager.GetString("ErrorLoginToast", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Search through and control Spotify..
         /// </summary>
-        public static string ExtensionDescription {
+        internal static string ExtensionDescription {
             get {
                 return ResourceManager.GetString("ExtensionDescription", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Spotify control.
         /// </summary>
-        public static string ExtensionDisplayName {
+        internal static string ExtensionDisplayName {
             get {
                 return ResourceManager.GetString("ExtensionDisplayName", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Client ID.
         /// </summary>
-        public static string ExtensionSettingClientId {
+        internal static string ExtensionSettingClientId {
             get {
                 return ResourceManager.GetString("ExtensionSettingClientId", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your Spotify&apos;s app client id..
         /// </summary>
-        public static string ExtensionSettingClientIdDescription {
+        internal static string ExtensionSettingClientIdDescription {
             get {
                 return ResourceManager.GetString("ExtensionSettingClientIdDescription", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Filter Wildcard.
         /// </summary>
-        public static string ExtensionSettingFilterWildcard {
+        internal static string ExtensionSettingFilterWildcard {
             get {
                 return ResourceManager.GetString("ExtensionSettingFilterWildcard", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Filter wildcard character used to prepend a filter, e.g. /album or !album.
         /// </summary>
-        public static string ExtensionSettingFilterWildcardDescription {
+        internal static string ExtensionSettingFilterWildcardDescription {
             get {
                 return ResourceManager.GetString("ExtensionSettingFilterWildcardDescription", resourceCulture);
             }
@@ -217,7 +217,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         ///   Looks up a localized string similar to Search through and control Spotify
         ///as {0} ({1}).
         /// </summary>
-        public static string ExtensionStatusDescription {
+        internal static string ExtensionStatusDescription {
             get {
                 return ResourceManager.GetString("ExtensionStatusDescription", resourceCulture);
             }
@@ -226,7 +226,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to 🎧 Logged in as {0} ({1}).
         /// </summary>
-        public static string LoginSuccessToast {
+        internal static string LoginSuccessToast {
             get {
                 return ResourceManager.GetString("LoginSuccessToast", resourceCulture);
             }
@@ -235,7 +235,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ✅ Logged in, but failed to get user info.
         /// </summary>
-        public static string LoginUserInfoEmptyToast {
+        internal static string LoginUserInfoEmptyToast {
             get {
                 return ResourceManager.GetString("LoginUserInfoEmptyToast", resourceCulture);
             }
@@ -244,7 +244,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Device selection failed with both cache and API query.
         /// </summary>
-        public static string PlayerCommandDeviceRetrievalFailedEx {
+        internal static string PlayerCommandDeviceRetrievalFailedEx {
             get {
                 return ResourceManager.GetString("PlayerCommandDeviceRetrievalFailedEx", resourceCulture);
             }
@@ -253,7 +253,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Unable to select valid device from Spotify API.
         /// </summary>
-        public static string PlayerCommandDeviceSelectionFailedEx {
+        internal static string PlayerCommandDeviceSelectionFailedEx {
             get {
                 return ResourceManager.GetString("PlayerCommandDeviceSelectionFailedEx", resourceCulture);
             }
@@ -262,7 +262,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Refreshing expired session….
         /// </summary>
-        public static string PlayerCommandSessionHealingToast {
+        internal static string PlayerCommandSessionHealingToast {
             get {
                 return ResourceManager.GetString("PlayerCommandSessionHealingToast", resourceCulture);
             }
@@ -271,7 +271,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Album.
         /// </summary>
-        public static string ResultAlbumSubTitle {
+        internal static string ResultAlbumSubTitle {
             get {
                 return ResourceManager.GetString("ResultAlbumSubTitle", resourceCulture);
             }
@@ -280,7 +280,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Artist.
         /// </summary>
-        public static string ResultArtistSubTitle {
+        internal static string ResultArtistSubTitle {
             get {
                 return ResourceManager.GetString("ResultArtistSubTitle", resourceCulture);
             }
@@ -289,7 +289,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Login to authorize the extension to use the Spotify API..
         /// </summary>
-        public static string ResultLoginSubTitle {
+        internal static string ResultLoginSubTitle {
             get {
                 return ResourceManager.GetString("ResultLoginSubTitle", resourceCulture);
             }
@@ -298,7 +298,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
-        public static string ResultLoginTitle {
+        internal static string ResultLoginTitle {
             get {
                 return ResourceManager.GetString("ResultLoginTitle", resourceCulture);
             }
@@ -307,7 +307,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Set your client ID in the extension&apos;s settings..
         /// </summary>
-        public static string ResultMissingClientIdSubTitle {
+        internal static string ResultMissingClientIdSubTitle {
             get {
                 return ResourceManager.GetString("ResultMissingClientIdSubTitle", resourceCulture);
             }
@@ -316,7 +316,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Spotify - Missing client ID.
         /// </summary>
-        public static string ResultMissingClientIdTitle {
+        internal static string ResultMissingClientIdTitle {
             get {
                 return ResourceManager.GetString("ResultMissingClientIdTitle", resourceCulture);
             }
@@ -325,7 +325,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Next track.
         /// </summary>
-        public static string ResultNextTrackTitle {
+        internal static string ResultNextTrackTitle {
             get {
                 return ResourceManager.GetString("ResultNextTrackTitle", resourceCulture);
             }
@@ -334,7 +334,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Pause playback.
         /// </summary>
-        public static string ResultPausePlaybackTitle {
+        internal static string ResultPausePlaybackTitle {
             get {
                 return ResourceManager.GetString("ResultPausePlaybackTitle", resourceCulture);
             }
@@ -343,7 +343,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Playlist.
         /// </summary>
-        public static string ResultPlaylistSubTitle {
+        internal static string ResultPlaylistSubTitle {
             get {
                 return ResourceManager.GetString("ResultPlaylistSubTitle", resourceCulture);
             }
@@ -352,7 +352,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Play.
         /// </summary>
-        public static string ResultPlayName {
+        internal static string ResultPlayName {
             get {
                 return ResourceManager.GetString("ResultPlayName", resourceCulture);
             }
@@ -361,7 +361,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Previous track.
         /// </summary>
-        public static string ResultPreviousTrackTitle {
+        internal static string ResultPreviousTrackTitle {
             get {
                 return ResourceManager.GetString("ResultPreviousTrackTitle", resourceCulture);
             }
@@ -370,7 +370,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Resume playback.
         /// </summary>
-        public static string ResultResumePlaybackTitle {
+        internal static string ResultResumePlaybackTitle {
             get {
                 return ResourceManager.GetString("ResultResumePlaybackTitle", resourceCulture);
             }
@@ -379,7 +379,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Set repeat to context.
         /// </summary>
-        public static string ResultSetRepeatContextTitle {
+        internal static string ResultSetRepeatContextTitle {
             get {
                 return ResourceManager.GetString("ResultSetRepeatContextTitle", resourceCulture);
             }
@@ -388,7 +388,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Set repeat to off.
         /// </summary>
-        public static string ResultSetRepeatOffTitle {
+        internal static string ResultSetRepeatOffTitle {
             get {
                 return ResourceManager.GetString("ResultSetRepeatOffTitle", resourceCulture);
             }
@@ -397,7 +397,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Set repeat to track.
         /// </summary>
-        public static string ResultSetRepeatTrackTitle {
+        internal static string ResultSetRepeatTrackTitle {
             get {
                 return ResourceManager.GetString("ResultSetRepeatTrackTitle", resourceCulture);
             }
@@ -406,7 +406,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to By.
         /// </summary>
-        public static string ResultSongBySubTitle {
+        internal static string ResultSongBySubTitle {
             get {
                 return ResourceManager.GetString("ResultSongBySubTitle", resourceCulture);
             }
@@ -415,7 +415,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Explicit.
         /// </summary>
-        public static string ResultSongExplicitSubTitle {
+        internal static string ResultSongExplicitSubTitle {
             get {
                 return ResourceManager.GetString("ResultSongExplicitSubTitle", resourceCulture);
             }
@@ -424,7 +424,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Song.
         /// </summary>
-        public static string ResultSongSubTitle {
+        internal static string ResultSongSubTitle {
             get {
                 return ResourceManager.GetString("ResultSongSubTitle", resourceCulture);
             }
@@ -433,7 +433,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Toggle playback.
         /// </summary>
-        public static string ResultTogglePlaybackTitle {
+        internal static string ResultTogglePlaybackTitle {
             get {
                 return ResourceManager.GetString("ResultTogglePlaybackTitle", resourceCulture);
             }
@@ -442,7 +442,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Turn off shuffle.
         /// </summary>
-        public static string ResultTurnOffShuffleTitle {
+        internal static string ResultTurnOffShuffleTitle {
             get {
                 return ResourceManager.GetString("ResultTurnOffShuffleTitle", resourceCulture);
             }
@@ -451,7 +451,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Turn on shuffle.
         /// </summary>
-        public static string ResultTurnOnShuffleTitle {
+        internal static string ResultTurnOnShuffleTitle {
             get {
                 return ResourceManager.GetString("ResultTurnOnShuffleTitle", resourceCulture);
             }
@@ -460,7 +460,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to album.
         /// </summary>
-        public static string SearchTypeAlbum {
+        internal static string SearchTypeAlbum {
             get {
                 return ResourceManager.GetString("SearchTypeAlbum", resourceCulture);
             }
@@ -469,7 +469,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to artist.
         /// </summary>
-        public static string SearchTypeArtist {
+        internal static string SearchTypeArtist {
             get {
                 return ResourceManager.GetString("SearchTypeArtist", resourceCulture);
             }
@@ -478,7 +478,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to audiobook.
         /// </summary>
-        public static string SearchTypeAudiobook {
+        internal static string SearchTypeAudiobook {
             get {
                 return ResourceManager.GetString("SearchTypeAudiobook", resourceCulture);
             }
@@ -487,7 +487,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to episode.
         /// </summary>
-        public static string SearchTypeEpisode {
+        internal static string SearchTypeEpisode {
             get {
                 return ResourceManager.GetString("SearchTypeEpisode", resourceCulture);
             }
@@ -496,7 +496,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to playlist.
         /// </summary>
-        public static string SearchTypePlaylist {
+        internal static string SearchTypePlaylist {
             get {
                 return ResourceManager.GetString("SearchTypePlaylist", resourceCulture);
             }
@@ -505,7 +505,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to show.
         /// </summary>
-        public static string SearchTypeShow {
+        internal static string SearchTypeShow {
             get {
                 return ResourceManager.GetString("SearchTypeShow", resourceCulture);
             }
@@ -514,7 +514,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to track.
         /// </summary>
-        public static string SearchTypeTrack {
+        internal static string SearchTypeTrack {
             get {
                 return ResourceManager.GetString("SearchTypeTrack", resourceCulture);
             }
@@ -523,7 +523,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your Top Tracks.
         /// </summary>
-        public static string TopTracksTitle {
+        internal static string TopTracksTitle {
             get {
                 return ResourceManager.GetString("TopTracksTitle", resourceCulture);
             }
@@ -532,7 +532,7 @@ namespace CmdPal.Ext.Spotify.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Transfer to {0}.
         /// </summary>
-        public static string TransferPlaybackCommandName {
+        internal static string TransferPlaybackCommandName {
             get {
                 return ResourceManager.GetString("TransferPlaybackCommandName", resourceCulture);
             }

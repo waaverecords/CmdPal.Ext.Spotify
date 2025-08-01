@@ -269,7 +269,7 @@
     <value>无法从 Spotify API 中选择有效设备</value>
   </data>
   <data name="PlayerCommandSessionHealingToast" xml:space="preserve">
-    <value>正在刷新过期的会话…</value>
+    <value>正在更新会话状态…</value>
   </data>
   <data name="TopTracksTitle" xml:space="preserve">
     <value>您的熱門曲目</value>

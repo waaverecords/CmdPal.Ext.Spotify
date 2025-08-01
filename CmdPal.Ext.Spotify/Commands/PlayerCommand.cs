@@ -7,6 +7,7 @@ using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -78,7 +79,7 @@ internal abstract class PlayerCommand<T> : InvokableCommand
         catch (APIException ex) when (ex.Response?.StatusCode == HttpStatusCode.NotFound)
         {
             new ToastStatusMessage(new StatusMessage() { Message = Resources.PlayerCommandSessionHealingToast, State = MessageState.Info }).Show();
-            Journal.Append($"Healing aged-session, due to: {ex.Message}: {JsonConvert.SerializeObject(this)}", label: Journal.Label.Information);
+            Journal.Append($"{Resources.ResourceManager.GetString("PlayerCommandSessionHealingToast", CultureInfo.InvariantCulture)} due to: {ex.Message}: {JsonConvert.SerializeObject(this)}", label: Journal.Label.Information);
         }
 
         // 🧊 Attempt to load from local cache

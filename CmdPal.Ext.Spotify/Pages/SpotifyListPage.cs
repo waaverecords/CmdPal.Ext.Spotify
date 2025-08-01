@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -80,88 +81,97 @@ internal sealed partial class SpotifyListPage : DynamicListPage
 
     private async Task<List<ListItem>> GetItems(string search)
     {
-        var clientId = _settingsManager.ClientId;
-
-        if (string.IsNullOrEmpty(clientId))
-        {
-            EmptyContent = new CommandItem()
-            {
-                Title = Resources.ResultMissingClientIdTitle,
-                Subtitle = Resources.ResultMissingClientIdSubTitle,
-            };
-            return [];
-        }
-
-        if (!File.Exists(_credentialsPath))
-        {
-            var loginCommand = new LoginCommand(clientId, _credentialsPath);
-            loginCommand.LoggedIn += async (_, _) =>
-            {
-                try
-                {
-                    if (_spotifyClient == null)
-                        _spotifyClient = await GetSpotifyClientAsync(clientId);
-                    this._profile = await _spotifyClient.UserProfile.Current();
-                    new ToastStatusMessage(new StatusMessage()
-                    {
-                        Message = String.Format(Resources.LoginSuccessToast, _profile.DisplayName, _profile.Email),
-                        State = MessageState.Success
-                    }).Show();
-                }
-                catch (Exception ex)
-                {
-                    new ToastStatusMessage(new StatusMessage()
-                    {
-                        Message = Resources.LoginUserInfoEmptyToast,
-                        State = MessageState.Warning
-                    }).Show();
-                    Journal.Append($"{Resources.LoginUserInfoEmptyToast}: {ex.Message}: {JsonConvert.SerializeObject(this)}");
-                }
-                RefreshCommandList();
-            };
-            EmptyContent = new CommandItem(loginCommand)
-            {
-                Title = Resources.ResultLoginTitle,
-                Subtitle = Resources.ResultLoginSubTitle,
-                Icon = Icons.Spotify,
-            };
-            return [];
-        }
-
-        if (_spotifyClient == null)
-            _spotifyClient = await GetSpotifyClientAsync(clientId);
-
-        if (string.IsNullOrEmpty(search.Trim()))
-        {
-            EmptyContent = _defaultEmptyContent;
-            return [];
-        }
-
-        (search, var searchTypes) = GetSearchTypes(search);
-
-        if (string.IsNullOrEmpty(search.Trim()))
-        {
-            EmptyContent = _defaultEmptyContent;
-            return [];
-        }
-
         try
         {
-          var results = await GetSearchItemsAsync(search, searchTypes);
-            if (results.Count == 0)
+            var clientId = _settingsManager.ClientId;
+
+            if (string.IsNullOrEmpty(clientId))
+            {
                 EmptyContent = new CommandItem()
                 {
-                    Title = Resources.EmptyResultsTitle,
+                    Title = Resources.ResultMissingClientIdTitle,
+                    Subtitle = Resources.ResultMissingClientIdSubTitle,
                 };
-            return results;
+                return [];
+            }
+
+            if (!File.Exists(_credentialsPath))
+            {
+                var loginCommand = new LoginCommand(clientId, _credentialsPath);
+                loginCommand.LoggedIn += async (_, _) =>
+                {
+                    try
+                    {
+                        if (_spotifyClient == null)
+                            _spotifyClient = await GetSpotifyClientAsync(clientId);
+                        this._profile = await _spotifyClient.UserProfile.Current();
+                        new ToastStatusMessage(new StatusMessage()
+                        {
+                            Message = String.Format(Resources.LoginSuccessToast, _profile.DisplayName, _profile.Email),
+                            State = MessageState.Success
+                        }).Show();
+                    }
+                    catch (Exception ex)
+                    {
+                        new ToastStatusMessage(new StatusMessage()
+                        {
+                            Message = Resources.LoginUserInfoEmptyToast,
+                            State = MessageState.Warning
+                        }).Show();
+                        Journal.Append($"{Resources.LoginUserInfoEmptyToast}: {ex.Message}: {JsonConvert.SerializeObject(this)}");
+                    }
+                    RefreshCommandList();
+                };
+                EmptyContent = new CommandItem(loginCommand)
+                {
+                    Title = Resources.ResultLoginTitle,
+                    Subtitle = Resources.ResultLoginSubTitle,
+                    Icon = Icons.Spotify,
+                };
+                return [];
+            }
+
+            if (_spotifyClient == null)
+                _spotifyClient = await GetSpotifyClientAsync(clientId);
+
+            if (string.IsNullOrEmpty(search.Trim()))
+            {
+                EmptyContent = _defaultEmptyContent;
+                return [];
+            }
+
+            (search, var searchTypes) = GetSearchTypes(search);
+
+            if (string.IsNullOrEmpty(search.Trim()))
+            {
+                EmptyContent = _defaultEmptyContent;
+                return [];
+            }
+
+            try
+            {
+                var results = await GetSearchItemsAsync(search, searchTypes);
+                if (results.Count == 0)
+                    EmptyContent = new CommandItem()
+                    {
+                        Title = Resources.EmptyResultsTitle,
+                    };
+                return results;
+            }
+            catch (Exception ex)
+            {
+                EmptyContent = new CommandItem()
+                {
+                    Title = Resources.EmptyErrorTitle,
+                };
+            }
+            return [];
         }
         catch (Exception ex)
         {
-            EmptyContent = new CommandItem() {
-                Title = Resources.EmptyErrorTitle,
-            };
+            Journal.Append(ex.Message, label: Journal.Label.Error);
+            return [];
         }
-        return [];
     }
 
     private async Task<SpotifyClient> GetSpotifyClientAsync(string clientId)
@@ -216,7 +226,7 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             catch (Exception ex)
             {
                 new ToastStatusMessage(new StatusMessage() { Message = Resources.DeviceCacheErrorToast, State = MessageState.Error }).Show();
-                Journal.Append($"Could not use devices cache: {ex.Message}", label: Journal.Label.Error);
+                Journal.Append($"{Resources.ResourceManager.GetString("DeviceCacheErrorToast", CultureInfo.InvariantCulture)}: {ex.Message}", label: Journal.Label.Error);
 
                 var cached = CmdPal.Ext.Spotify.Helpers.Cache.LoadDevices();
                 foreach (var device in cached)
