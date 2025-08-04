@@ -196,6 +196,141 @@ namespace CmdPal.Ext.Spotify.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go Home.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultActionGoHome {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultActionGoHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultActionHide {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultActionHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep Open.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultActionKeepOpen {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultActionKeepOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add To Queue Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForAddToQueue {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForAddToQueue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForLogin {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause Playback Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForPausePlayback {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForPausePlayback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resume Playback Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForResumePlayback {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForResumePlayback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Repeat Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForSetRepeat {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForSetRepeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Shuffle Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForSetShuffle {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForSetShuffle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip Next Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForSkipNext {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForSkipNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip Previous Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForSkipPrevious {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForSkipPrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle Playback Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForTogglePlayback {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForTogglePlayback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transfer Playback Command.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultForTransferPlayback {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultForTransferPlayback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What should the Spotify control do after {0}?.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultSettingDesc {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultSettingDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After {0}.
+        /// </summary>
+        internal static string ExtensionSettingCommandResultSettingLabel {
+            get {
+                return ResourceManager.GetString("ExtensionSettingCommandResultSettingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter Wildcard.
         /// </summary>
         internal static string ExtensionSettingFilterWildcard {

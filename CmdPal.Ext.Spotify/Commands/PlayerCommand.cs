@@ -1,7 +1,9 @@
 ﻿using CmdPal.Ext.Spotify.Helpers;
+using CmdPal.Ext.Spotify.Pages;
 using CmdPal.Ext.Spotify.Properties;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
+using Microsoft.UI.Xaml;
 using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using System;
@@ -37,7 +39,25 @@ internal abstract class PlayerCommand<T> : InvokableCommand
     {
         Journal.Append(JsonConvert.SerializeObject(this));
         EnsureActiveDeviceAsync(InvokeAsync).GetAwaiter().GetResult();
-        return CommandResult.KeepOpen();
+        return GetCommandResult(this);
+    }
+
+    private CommandResult GetCommandResult(PlayerCommand<T> playerCommand)
+    {
+        if (SpotifyCommandsProvider.SettingsManager.CommandResults.TryGetValue(playerCommand.GetType(), out var setting))
+            return GetCommandResult(setting.Value);
+        return CommandResult.Hide();
+    }
+
+    private CommandResult GetCommandResult(string? value)
+    {
+        return value switch
+        {
+            "KeepOpen" => CommandResult.KeepOpen(),
+            "GoHome" => CommandResult.GoHome(),
+            "Hide" or null => CommandResult.Hide(),
+            _ => CommandResult.Hide()
+        };
     }
 
     protected abstract Task InvokeAsync(IPlayerClient player, T requestParams);
