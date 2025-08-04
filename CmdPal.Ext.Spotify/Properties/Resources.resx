@@ -277,4 +277,49 @@ as {0} ({1})</value>
   <data name="TransferPlaybackCommandName" xml:space="preserve">
     <value>Transfer to {0}</value>
   </data>
+  <data name="ExtensionSettingCommandResultActionHide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionKeepOpen" xml:space="preserve">
+    <value>Keep Open</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionGoHome" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="ExtensionSettingCommandResultSettingLabel" xml:space="preserve">
+    <value>After {0}</value>
+  </data>
+  <data name="ExtensionSettingCommandResultSettingDesc" xml:space="preserve">
+    <value>What should the Spotify control do after {0}?</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForAddToQueue" xml:space="preserve">
+    <value>Add To Queue Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForLogin" xml:space="preserve">
+    <value>Login Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForPausePlayback" xml:space="preserve">
+    <value>Pause Playback Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForResumePlayback" xml:space="preserve">
+    <value>Resume Playback Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForSetRepeat" xml:space="preserve">
+    <value>Set Repeat Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForSetShuffle" xml:space="preserve">
+    <value>Set Shuffle Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForSkipNext" xml:space="preserve">
+    <value>Skip Next Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForSkipPrevious" xml:space="preserve">
+    <value>Skip Previous Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForTogglePlayback" xml:space="preserve">
+    <value>Toggle Playback Command</value>
+  </data>
+  <data name="ExtensionSettingCommandResultForTransferPlayback" xml:space="preserve">
+    <value>Transfer Playback Command</value>
+  </data>
 </root>

@@ -71,7 +71,7 @@ internal partial class AlbumPage : ListPage
                     Id = album.Id,
                     Name = album.Name
                 }
-            }).ToList(), spotifyClient, includeGoToAlbum: false).ToArray();
+            }).ToList(), spotifyClient, Without: new List<Type>() {typeof(AlbumPage)}).ToArray();
         }
         catch (Exception ex)
         {
