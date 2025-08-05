@@ -18,5 +18,5 @@ internal sealed class Icons
     internal static IconInfo Device { get; } = FromRelativePath("device.png");
     internal static IconInfo Speaker { get; } = FromRelativePath("speaker.png");
     internal static IconInfo Album { get; } = FromRelativePath("album.png");
-
+    internal static IconInfo Refresh { get; } = FromRelativePath("refresh.png");
 }

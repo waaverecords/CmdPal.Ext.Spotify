@@ -41,7 +41,7 @@ public class SettingsManager : JsonSettingsManager
 
     public string FilterWildcard => _filterWildcard.Value;
 
-    public Dictionary<Type, ChoiceSetSetting> CommandResults { get; } = new();
+    public Dictionary<string, ChoiceSetSetting> CommandResults { get; } = new();
 
     public SettingsManager()
     {
@@ -55,23 +55,23 @@ public class SettingsManager : JsonSettingsManager
             new ChoiceSetSetting.Choice(Resources.ExtensionSettingCommandResultActionKeepOpen, "KeepOpen"),
             new ChoiceSetSetting.Choice(Resources.ExtensionSettingCommandResultActionGoHome, "GoHome")
         };
-        foreach (var type in new Type[] {
-            typeof(AddToQueueCommand),
-            typeof(LoginCommand),
-            typeof(PausePlaybackCommand),
-            typeof(ResumePlaybackCommand),
-            typeof(SetRepeatCommand),
-            typeof(SetShuffleCommand),
-            typeof(SkipNextCommand),
-            typeof(SkipPreviousCommand),
-            typeof(TogglePlaybackCommand),
-            typeof(TransferPlaybackCommand)
+        foreach (var commandName in new string[] {
+            nameof(AddToQueueCommand),
+            nameof(LoginCommand),
+            nameof(PausePlaybackCommand),
+            nameof(ResumePlaybackCommand),
+            nameof(SetRepeatCommand),
+            nameof(SetShuffleCommand),
+            nameof(SkipNextCommand),
+            nameof(SkipPreviousCommand),
+            nameof(TogglePlaybackCommand),
+            nameof(TransferPlaybackCommand)
         })
         {
-            CommandResults.Add(type, new ChoiceSetSetting(
-                    key: type.Name,
-                    label: string.Format(Resources.ExtensionSettingCommandResultSettingLabel, Resources.ResourceManager.GetString(type.Name)),
-                    description: string.Format(Resources.ExtensionSettingCommandResultSettingDesc, type.Name),
+            CommandResults.Add(commandName, new ChoiceSetSetting(
+                    key: commandName,
+                    label: string.Format(Resources.ExtensionSettingCommandResultLabel, Resources.ResourceManager.GetString($"Name{commandName}")),
+                    description: string.Format(Resources.ExtensionSettingCommandResultDesc, Resources.ResourceManager.GetString($"Name{commandName}")),
                     choices: choices
                 )
             );

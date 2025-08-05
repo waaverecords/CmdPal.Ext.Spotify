@@ -21,7 +21,7 @@ namespace CmdPal.Ext.Spotify.Helpers
                 .Select(track =>
                 {
                     var moreCommands = new List<CommandContextItem>();
-                    if (!Without.Contains(typeof(ResumePlaybackCommand)))
+                    if (!Without.Contains(typeof(AddToQueueCommand)))
                         moreCommands.Add(new CommandContextItem(new AddToQueueCommand(_spotifyClient, new PlayerAddToQueueRequest(track.Uri))));
                     if (!Without.Contains(typeof(AlbumPage)))
                         moreCommands.Add(new CommandContextItem(new AlbumPage(_spotifyClient, track.Album.Id, track.Album.Name)));
