@@ -286,40 +286,43 @@ as {0} ({1})</value>
   <data name="ExtensionSettingCommandResultActionGoHome" xml:space="preserve">
     <value>Go Home</value>
   </data>
-  <data name="ExtensionSettingCommandResultSettingLabel" xml:space="preserve">
+  <data name="ExtensionSettingCommandResultLabel" xml:space="preserve">
     <value>After {0}</value>
   </data>
-  <data name="ExtensionSettingCommandResultSettingDesc" xml:space="preserve">
+  <data name="ExtensionSettingCommandResultDesc" xml:space="preserve">
     <value>What should the Spotify control do after {0}?</value>
   </data>
-  <data name="ExtensionSettingCommandResultForAddToQueue" xml:space="preserve">
-    <value>Add To Queue Command</value>
+  <data name="DevicesRefreshCommandName" xml:space="preserve">
+    <value>Refresh Devices</value>
   </data>
-  <data name="ExtensionSettingCommandResultForLogin" xml:space="preserve">
-    <value>Login Command</value>
-  </data>
-  <data name="ExtensionSettingCommandResultForPausePlayback" xml:space="preserve">
+  <data name="NamePausePlaybackCommand" xml:space="preserve">
     <value>Pause Playback Command</value>
   </data>
-  <data name="ExtensionSettingCommandResultForResumePlayback" xml:space="preserve">
+  <data name="NameResumePlaybackCommand" xml:space="preserve">
     <value>Resume Playback Command</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSetRepeat" xml:space="preserve">
+  <data name="NameSetRepeatCommand" xml:space="preserve">
     <value>Set Repeat Command</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSetShuffle" xml:space="preserve">
+  <data name="NameSetShuffleCommand" xml:space="preserve">
     <value>Set Shuffle Command</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSkipNext" xml:space="preserve">
+  <data name="NameSkipNextCommand" xml:space="preserve">
     <value>Skip Next Command</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSkipPrevious" xml:space="preserve">
+  <data name="NameSkipPreviousCommand" xml:space="preserve">
     <value>Skip Previous Command</value>
   </data>
-  <data name="ExtensionSettingCommandResultForTogglePlayback" xml:space="preserve">
+  <data name="NameTogglePlaybackCommand" xml:space="preserve">
     <value>Toggle Playback Command</value>
   </data>
-  <data name="ExtensionSettingCommandResultForTransferPlayback" xml:space="preserve">
+  <data name="NameTransferPlaybackCommand" xml:space="preserve">
     <value>Transfer Playback Command</value>
+  </data>
+  <data name="NameAddToQueueCommand" xml:space="preserve">
+    <value>Add To Queue Command</value>
+  </data>
+  <data name="NameLoginCommand" xml:space="preserve">
+    <value>Login Command</value>
   </data>
 </root>

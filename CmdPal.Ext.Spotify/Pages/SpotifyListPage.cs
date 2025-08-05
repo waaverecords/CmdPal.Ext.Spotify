@@ -208,33 +208,10 @@ internal sealed partial class SpotifyListPage : DynamicListPage
             new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)),
             new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)),
             new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)),
-            new TopTrackPage(_spotifyClient)
+            new TopTrackPage(_spotifyClient),
+            new DevicesPage(_spotifyClient)
         };
 
-        if (_spotifyClient != null)
-        {
-            try
-            {
-                var devices = _spotifyClient.Player.GetAvailableDevices().Result;
-                Cache.SaveDevices(devices.Devices);
-                foreach (var device in devices.Devices)
-                {
-                    commands.Add(new TransferPlaybackCommand(_spotifyClient, device.Id, device.Name));
-                }
-                new ToastStatusMessage(new StatusMessage() { Message = Resources.DeviceCacheSavedToast, State = MessageState.Info }).Show();
-            }
-            catch (Exception ex)
-            {
-                new ToastStatusMessage(new StatusMessage() { Message = Resources.DeviceCacheErrorToast, State = MessageState.Error }).Show();
-                Journal.Append($"{Resources.ResourceManager.GetString("DeviceCacheErrorToast", CultureInfo.InvariantCulture)}: {ex.Message}", label: Journal.Label.Error);
-
-                var cached = CmdPal.Ext.Spotify.Helpers.Cache.LoadDevices();
-                foreach (var device in cached)
-                {
-                    commands.Add(new TransferPlaybackCommand(_spotifyClient, device.Id, device.Name));
-                }
-            }
-        }
         return commands;
     }
 

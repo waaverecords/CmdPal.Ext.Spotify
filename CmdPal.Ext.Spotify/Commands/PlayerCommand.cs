@@ -44,7 +44,7 @@ internal abstract class PlayerCommand<T> : InvokableCommand
 
     private CommandResult GetCommandResult(PlayerCommand<T> playerCommand)
     {
-        if (SpotifyCommandsProvider.SettingsManager.CommandResults.TryGetValue(playerCommand.GetType(), out var setting))
+        if (SpotifyCommandsProvider.SettingsManager.CommandResults.TryGetValue(playerCommand.GetType().Name, out var setting))
             return GetCommandResult(setting.Value);
         return CommandResult.Hide();
     }
@@ -103,7 +103,7 @@ internal abstract class PlayerCommand<T> : InvokableCommand
         }
 
         // 🧊 Attempt to load from local cache
-        var cachedDevices = Cache.LoadDevices();
+        var cachedDevices = Cache.GetDevices();
         if (cachedDevices != null && cachedDevices?.Count > 0)
         {
             var selected = SelectBestDevice(cachedDevices);

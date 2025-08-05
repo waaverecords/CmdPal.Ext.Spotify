@@ -286,40 +286,43 @@
   <data name="ExtensionSettingCommandResultActionGoHome" xml:space="preserve">
     <value>回到首页</value>
   </data>
-  <data name="ExtensionSettingCommandResultSettingLabel" xml:space="preserve">
+  <data name="ExtensionSettingCommandResultLabel" xml:space="preserve">
     <value>{0} 之后</value>
   </data>
-  <data name="ExtensionSettingCommandResultSettingDesc" xml:space="preserve">
+  <data name="ExtensionSettingCommandResultDesc" xml:space="preserve">
     <value>{0} 之后 Spotify 控件应执行什么操作？</value>
   </data>
-  <data name="ExtensionSettingCommandResultForAddToQueue" xml:space="preserve">
-    <value>添加到队列命令</value>
+  <data name="DevicesRefreshCommandName" xml:space="preserve">
+    <value>刷新设备</value>
   </data>
-  <data name="ExtensionSettingCommandResultForLogin" xml:space="preserve">
-    <value>登录命令</value>
-  </data>
-  <data name="ExtensionSettingCommandResultForPausePlayback" xml:space="preserve">
+  <data name="NamePausePlaybackCommand" xml:space="preserve">
     <value>暂停播放命令</value>
   </data>
-  <data name="ExtensionSettingCommandResultForResumePlayback" xml:space="preserve">
+  <data name="NameResumePlaybackCommand" xml:space="preserve">
     <value>恢复播放命令</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSetRepeat" xml:space="preserve">
+  <data name="NameSetRepeatCommand" xml:space="preserve">
     <value>设置重复命令</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSetShuffle" xml:space="preserve">
+  <data name="NameSetShuffleCommand" xml:space="preserve">
     <value>设置随机播放命令</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSkipNext" xml:space="preserve">
+  <data name="NameSkipNextCommand" xml:space="preserve">
     <value>跳过下一首命令</value>
   </data>
-  <data name="ExtensionSettingCommandResultForSkipPrevious" xml:space="preserve">
+  <data name="NameSkipPreviousCommand" xml:space="preserve">
     <value>跳过上一首命令</value>
   </data>
-  <data name="ExtensionSettingCommandResultForTogglePlayback" xml:space="preserve">
+  <data name="NameTogglePlaybackCommand" xml:space="preserve">
     <value>切换播放状态命令</value>
   </data>
-  <data name="ExtensionSettingCommandResultForTransferPlayback" xml:space="preserve">
+  <data name="NameTransferPlaybackCommand" xml:space="preserve">
     <value>转移播放命令</value>
+  </data>
+  <data name="NameAddToQueueCommand" xml:space="preserve">
+    <value>添加到队列命令</value>
+  </data>
+  <data name="NameLoginCommand" xml:space="preserve">
+    <value>登录命令</value>
   </data>
 </root>
