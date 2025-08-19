@@ -31,11 +31,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Assets\Dark\" />
-		<Folder Include="Assets\Light\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
@@ -51,6 +46,11 @@
 		<PackageReference Include="SpotifyAPI.Web.Auth" />
 		<PackageReference Include="System.Text.Json" />
 		<PackageReference Include="Shmuelie.WinRTServer" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator></Generator>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

@@ -228,4 +228,101 @@
   <data name="ExtensionSettingClientId" xml:space="preserve">
     <value>Client ID</value>
   </data>
+  <data name="ContextMenuResultGoToAlbumTitle" xml:space="preserve">
+    <value> 前往专辑</value>
+  </data>
+  <data name="DeviceCacheErrorToast" xml:space="preserve">
+    <value>无法刷新可用设备</value>
+  </data>
+  <data name="DeviceCacheSavedToast" xml:space="preserve">
+    <value>可用设备已刷新</value>
+  </data>
+  <data name="ErrorAddToQueueToast" xml:space="preserve">
+    <value>无法添加到播放队列</value>
+  </data>
+  <data name="ErrorJournalAppend" xml:space="preserve">
+    <value>无法写入会话日志</value>
+  </data>
+  <data name="ErrorLoadingTopTracksTitle" xml:space="preserve">
+    <value>無法載入熱門曲目</value>
+  </data>
+  <data name="ErrorLoadingTracksTitle" xml:space="preserve">
+    <value>无法加载曲目</value>
+  </data>
+  <data name="ErrorLoginToast" xml:space="preserve">
+    <value>无法登录</value>
+  </data>
+  <data name="ExtensionStatusDescription" xml:space="preserve">
+    <value>搜索歌曲与控制 Spotify
+身份：{0}（{1}）</value>
+  </data>
+  <data name="LoginSuccessToast" xml:space="preserve">
+    <value>🎧 已登录为 {0}（{1}）</value>
+  </data>
+  <data name="LoginUserInfoEmptyToast" xml:space="preserve">
+    <value>✅ 已登录，但获取用户信息失败</value>
+  </data>
+  <data name="PlayerCommandDeviceRetrievalFailedEx" xml:space="preserve">
+    <value>设备选择失败：缓存与 API 查询均无效</value>
+  </data>
+  <data name="PlayerCommandDeviceSelectionFailedEx" xml:space="preserve">
+    <value>无法从 Spotify API 中选择有效设备</value>
+  </data>
+  <data name="PlayerCommandSessionHealingToast" xml:space="preserve">
+    <value>正在更新会话状态…</value>
+  </data>
+  <data name="TopTracksTitle" xml:space="preserve">
+    <value>您的熱門曲目</value>
+  </data>
+  <data name="TransferPlaybackCommandName" xml:space="preserve">
+    <value>传输至 {0}</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionHide" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionKeepOpen" xml:space="preserve">
+    <value>保持打开</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionGoHome" xml:space="preserve">
+    <value>回到首页</value>
+  </data>
+  <data name="ExtensionSettingCommandResultLabel" xml:space="preserve">
+    <value>{0} 之后</value>
+  </data>
+  <data name="ExtensionSettingCommandResultDesc" xml:space="preserve">
+    <value>{0} 之后 Spotify 控件应执行什么操作？</value>
+  </data>
+  <data name="DevicesRefreshCommandName" xml:space="preserve">
+    <value>刷新设备</value>
+  </data>
+  <data name="NamePausePlaybackCommand" xml:space="preserve">
+    <value>暂停播放命令</value>
+  </data>
+  <data name="NameResumePlaybackCommand" xml:space="preserve">
+    <value>恢复播放命令</value>
+  </data>
+  <data name="NameSetRepeatCommand" xml:space="preserve">
+    <value>设置重复命令</value>
+  </data>
+  <data name="NameSetShuffleCommand" xml:space="preserve">
+    <value>设置随机播放命令</value>
+  </data>
+  <data name="NameSkipNextCommand" xml:space="preserve">
+    <value>跳过下一首命令</value>
+  </data>
+  <data name="NameSkipPreviousCommand" xml:space="preserve">
+    <value>跳过上一首命令</value>
+  </data>
+  <data name="NameTogglePlaybackCommand" xml:space="preserve">
+    <value>切换播放状态命令</value>
+  </data>
+  <data name="NameTransferPlaybackCommand" xml:space="preserve">
+    <value>转移播放命令</value>
+  </data>
+  <data name="NameAddToQueueCommand" xml:space="preserve">
+    <value>添加到队列命令</value>
+  </data>
+  <data name="NameLoginCommand" xml:space="preserve">
+    <value>登录命令</value>
+  </data>
 </root>

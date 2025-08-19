@@ -1,0 +1,287 @@
+using CmdPal.Ext.Spotify.Commands;
+using CmdPal.Ext.Spotify.Helpers;
+using CmdPal.Ext.Spotify.Properties;
+using Microsoft.CommandPalette.Extensions;
+using Microsoft.CommandPalette.Extensions.Toolkit;
+using Newtonsoft.Json;
+using SpotifyAPI.Web;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Media.Protection.PlayReady;
+
+namespace CmdPal.Ext.Spotify.Pages;
+
+internal sealed partial class SpotifyListPage : DynamicListPage
+{
+    private List<ListItem> _items = new();
+    private SettingsManager _settingsManager;
+    private string _credentialsPath;
+    private SpotifyClient _spotifyClient;
+    private Timer _debounceTimer;
+    private List<string> _neutralTypeFilters = ["album", "artist", "playlist", "track"];
+    private List<string> _localTypeFilters = [Resources.SearchTypeAlbum, Resources.SearchTypeArtist, Resources.SearchTypePlaylist, Resources.SearchTypeTrack];
+    private Lazy<List<Command>> _cachedPlayerCommands;
+    private PrivateUser _profile;
+
+    public SpotifyListPage(SettingsManager settingsManager)
+    {
+        Icon = Icons.Spotify;
+        Title = Resources.ExtensionDisplayName;
+        Name = Resources.ExtensionDisplayName;
+
+        _settingsManager = settingsManager;
+        _settingsManager.Settings.SettingsChanged += (_, _) => SearchAsync(SearchText);
+
+        var appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CmdPal.Ext.Spotify");
+        _credentialsPath = Path.Combine(appDataPath, "credentials.json");
+
+        _cachedPlayerCommands = new Lazy<List<Command>>(GetPlayerCommands);
+        _items = [.. GetItems(string.Empty).GetAwaiter().GetResult()];
+
+        EmptyContent = _defaultEmptyContent;
+    }
+
+    private CommandItem _defaultEmptyContent => new(_cachedPlayerCommands.Value[0])
+    {
+        Title = Resources.ExtensionDisplayName,
+        Subtitle = _profile != null
+            ? String.Format(Resources.ExtensionStatusDescription, _profile.DisplayName, _profile.Email)
+            : Resources.ExtensionDescription,
+        Icon = Icons.Spotify,
+        MoreCommands = _cachedPlayerCommands.Value.Skip(1).Select(command => new CommandContextItem(command)).ToArray(),
+    };
+
+    public override IListItem[] GetItems() => [.. _items];
+
+    public override void UpdateSearchText(string oldSearch, string newSearch)
+    {
+        IsLoading = true;
+
+        _debounceTimer?.Dispose();
+
+        _debounceTimer = new Timer(
+            _ => SearchAsync(newSearch),
+            null, TimeSpan.FromMilliseconds(300), Timeout.InfiniteTimeSpan
+        );
+    }
+
+    private async void SearchAsync(string search)
+    {
+        IsLoading = true;
+        _items = [.. await GetItems(search)];
+        IsLoading = false;
+        RaiseItemsChanged(0);
+    }
+
+    private async Task<List<ListItem>> GetItems(string search)
+    {
+        try
+        {
+            var clientId = _settingsManager.ClientId;
+
+            if (string.IsNullOrEmpty(clientId))
+            {
+                EmptyContent = new CommandItem()
+                {
+                    Title = Resources.ResultMissingClientIdTitle,
+                    Subtitle = Resources.ResultMissingClientIdSubTitle,
+                };
+                return [];
+            }
+
+            if (!File.Exists(_credentialsPath))
+            {
+                var loginCommand = new LoginCommand(clientId, _credentialsPath);
+                loginCommand.LoggedIn += async (_, _) =>
+                {
+                    try
+                    {
+                        if (_spotifyClient == null)
+                            _spotifyClient = await GetSpotifyClientAsync(clientId);
+                        this._profile = await _spotifyClient.UserProfile.Current();
+                        new ToastStatusMessage(new StatusMessage()
+                        {
+                            Message = String.Format(Resources.LoginSuccessToast, _profile.DisplayName, _profile.Email),
+                            State = MessageState.Success
+                        }).Show();
+                    }
+                    catch (Exception ex)
+                    {
+                        new ToastStatusMessage(new StatusMessage()
+                        {
+                            Message = Resources.LoginUserInfoEmptyToast,
+                            State = MessageState.Warning
+                        }).Show();
+                        Journal.Append($"{Resources.LoginUserInfoEmptyToast}: {ex.Message}: {JsonConvert.SerializeObject(this)}");
+                    }
+                    RefreshCommandList();
+                };
+                EmptyContent = new CommandItem(loginCommand)
+                {
+                    Title = Resources.ResultLoginTitle,
+                    Subtitle = Resources.ResultLoginSubTitle,
+                    Icon = Icons.Spotify,
+                };
+                return [];
+            }
+
+            if (_spotifyClient == null)
+                _spotifyClient = await GetSpotifyClientAsync(clientId);
+
+            if (string.IsNullOrEmpty(search.Trim()))
+            {
+                EmptyContent = _defaultEmptyContent;
+                return [];
+            }
+
+            (search, var searchTypes) = GetSearchTypes(search);
+
+            if (string.IsNullOrEmpty(search.Trim()))
+            {
+                EmptyContent = _defaultEmptyContent;
+                return [];
+            }
+
+            try
+            {
+                var results = await GetSearchItemsAsync(search, searchTypes);
+                if (results.Count == 0)
+                    EmptyContent = new CommandItem()
+                    {
+                        Title = Resources.EmptyResultsTitle,
+                    };
+                return results;
+            }
+            catch (Exception ex)
+            {
+                EmptyContent = new CommandItem()
+                {
+                    Title = Resources.EmptyErrorTitle,
+                };
+            }
+            return [];
+        }
+        catch (Exception ex)
+        {
+            Journal.Append(ex.Message, label: Journal.Label.Error);
+            return [];
+        }
+    }
+
+    private async Task<SpotifyClient> GetSpotifyClientAsync(string clientId)
+    {
+        var json = await File.ReadAllTextAsync(_credentialsPath);
+        var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
+
+        var authenticator = new PKCEAuthenticator(clientId, token);
+        authenticator.TokenRefreshed += (sender, token) => File.WriteAllText(_credentialsPath, JsonConvert.SerializeObject(token));
+
+        var config = SpotifyClientConfig.CreateDefault()
+            .WithAuthenticator(authenticator);
+
+        return new SpotifyClient(config);
+    }
+
+    public List<Command> GetPlayerCommands()
+    {
+        var clientId = _settingsManager.ClientId;
+        if (_spotifyClient == null && !string.IsNullOrEmpty(clientId))
+            _spotifyClient = Task.Run(() => GetSpotifyClientAsync(clientId)).Wait(TimeSpan.FromSeconds(3))
+                                ? GetSpotifyClientAsync(clientId).Result
+                                : null;
+
+        var commands = new List<Command>
+        {
+            new TogglePlaybackCommand(_spotifyClient),
+            new PausePlaybackCommand(_spotifyClient),
+            new ResumePlaybackCommand(_spotifyClient),
+            new SkipNextCommand(_spotifyClient),
+            new SkipPreviousCommand(_spotifyClient),
+            new SetShuffleCommand(_spotifyClient, new(true)),
+            new SetShuffleCommand(_spotifyClient, new(false)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Track)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Context)),
+            new SetRepeatCommand(_spotifyClient, new(PlayerSetRepeatRequest.State.Off)),
+            new TopTrackPage(_spotifyClient),
+            new DevicesPage(_spotifyClient)
+        };
+
+        return commands;
+    }
+
+    private void RefreshCommandList()
+    {
+        _spotifyClient = null; // reset to allow re-auth'd client
+        _cachedPlayerCommands = new(() => GetPlayerCommands()); // refresh device commands
+
+        // Reset top-level UI
+        EmptyContent = _defaultEmptyContent;
+
+        // Re-run search if applicable
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            _ = Task.Run(() => SearchAsync(SearchText));
+        }
+        else
+        {
+            RaiseItemsChanged(0);
+        }
+    }
+
+    private async Task<List<ListItem>> GetSearchItemsAsync(string search, SearchRequest.Types searchTypes)
+    {
+        var results = new List<ListItem>();
+
+        var searchRequest = new SearchRequest(searchTypes, search)
+        {
+            Limit = 5
+        };
+
+        var searchResponse = await _spotifyClient.Search.Item(searchRequest);
+
+        if (searchResponse.Tracks?.Items != null)
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Track.ListItems(searchResponse.Tracks.Items, _spotifyClient));
+        if (searchResponse.Albums?.Items != null)
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Album.ListItems(searchResponse.Albums.Items, _spotifyClient));
+        if (searchResponse.Artists?.Items != null)
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Artist.ListItems(searchResponse.Artists.Items, _spotifyClient));
+        if (searchResponse.Playlists?.Items != null)
+            results.AddRange(CmdPal.Ext.Spotify.Helpers.Playlist.ListItems(searchResponse.Playlists.Items, _spotifyClient));
+
+        return results;
+    }
+
+    private (string, SearchRequest.Types) GetSearchTypes(string search)
+    {
+        var wildcard = _settingsManager.FilterWildcard;
+        /* 
+         * This pattern filters results using the 'types' parameter.
+         * Allowed values: "album", "artist", "playlist", "track", "show", "episode", "audiobook"
+        */
+        var typePattern = $"{wildcard}({String.Join("|", _localTypeFilters)})";
+
+        var searchFilter = SearchRequest.Types.All;
+
+        if (Regex.IsMatch(search, typePattern))
+        {
+            var matches = Regex.Matches(search, typePattern);
+            var types = new List<string>();
+            foreach (var match in matches)
+            {
+                var type = match.ToString().Substring(1);
+                var index = _localTypeFilters.FindIndex((e) => e == type);
+                types.Add(_neutralTypeFilters[index]);
+            }
+            Enum.TryParse(String.Join(", ", types), true, out searchFilter);
+            search = Regex.Replace(search, typePattern, string.Empty).Trim();
+        }
+
+        return (search, searchFilter);
+    }
+}
