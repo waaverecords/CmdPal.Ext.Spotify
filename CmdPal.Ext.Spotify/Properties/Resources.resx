@@ -228,4 +228,101 @@
   <data name="ExtensionSettingClientId" xml:space="preserve">
     <value>Client ID</value>
   </data>
+  <data name="ContextMenuResultGoToAlbumTitle" xml:space="preserve">
+    <value>Go to album</value>
+  </data>
+  <data name="DeviceCacheErrorToast" xml:space="preserve">
+    <value>Could not refresh available devices</value>
+  </data>
+  <data name="DeviceCacheSavedToast" xml:space="preserve">
+    <value>Refreshed available devices</value>
+  </data>
+  <data name="ErrorAddToQueueToast" xml:space="preserve">
+    <value>Could not Add to queue</value>
+  </data>
+  <data name="ErrorJournalAppend" xml:space="preserve">
+    <value>Could not write session log</value>
+  </data>
+  <data name="ErrorLoadingTopTracksTitle" xml:space="preserve">
+    <value>Could not load top tracks</value>
+  </data>
+  <data name="ErrorLoadingTracksTitle" xml:space="preserve">
+    <value>Could not load tracks</value>
+  </data>
+  <data name="ErrorLoginToast" xml:space="preserve">
+    <value>Could not log in.</value>
+  </data>
+  <data name="ExtensionStatusDescription" xml:space="preserve">
+    <value>Search through and control Spotify
+as {0} ({1})</value>
+  </data>
+  <data name="LoginSuccessToast" xml:space="preserve">
+    <value>🎧 Logged in as {0} ({1})</value>
+  </data>
+  <data name="LoginUserInfoEmptyToast" xml:space="preserve">
+    <value>✅ Logged in, but failed to get user info</value>
+  </data>
+  <data name="PlayerCommandDeviceRetrievalFailedEx" xml:space="preserve">
+    <value>Device selection failed with both cache and API query</value>
+  </data>
+  <data name="PlayerCommandDeviceSelectionFailedEx" xml:space="preserve">
+    <value>Unable to select valid device from Spotify API</value>
+  </data>
+  <data name="PlayerCommandSessionHealingToast" xml:space="preserve">
+    <value>Refreshing expired session…</value>
+  </data>
+  <data name="TopTracksTitle" xml:space="preserve">
+    <value>Your Top Tracks</value>
+  </data>
+  <data name="TransferPlaybackCommandName" xml:space="preserve">
+    <value>Transfer to {0}</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionHide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionKeepOpen" xml:space="preserve">
+    <value>Keep Open</value>
+  </data>
+  <data name="ExtensionSettingCommandResultActionGoHome" xml:space="preserve">
+    <value>Go Home</value>
+  </data>
+  <data name="ExtensionSettingCommandResultLabel" xml:space="preserve">
+    <value>After {0}</value>
+  </data>
+  <data name="ExtensionSettingCommandResultDesc" xml:space="preserve">
+    <value>What should the Spotify control do after {0}?</value>
+  </data>
+  <data name="DevicesRefreshCommandName" xml:space="preserve">
+    <value>Refresh Devices</value>
+  </data>
+  <data name="NamePausePlaybackCommand" xml:space="preserve">
+    <value>Pause Playback Command</value>
+  </data>
+  <data name="NameResumePlaybackCommand" xml:space="preserve">
+    <value>Resume Playback Command</value>
+  </data>
+  <data name="NameSetRepeatCommand" xml:space="preserve">
+    <value>Set Repeat Command</value>
+  </data>
+  <data name="NameSetShuffleCommand" xml:space="preserve">
+    <value>Set Shuffle Command</value>
+  </data>
+  <data name="NameSkipNextCommand" xml:space="preserve">
+    <value>Skip Next Command</value>
+  </data>
+  <data name="NameSkipPreviousCommand" xml:space="preserve">
+    <value>Skip Previous Command</value>
+  </data>
+  <data name="NameTogglePlaybackCommand" xml:space="preserve">
+    <value>Toggle Playback Command</value>
+  </data>
+  <data name="NameTransferPlaybackCommand" xml:space="preserve">
+    <value>Transfer Playback Command</value>
+  </data>
+  <data name="NameAddToQueueCommand" xml:space="preserve">
+    <value>Add To Queue Command</value>
+  </data>
+  <data name="NameLoginCommand" xml:space="preserve">
+    <value>Login Command</value>
+  </data>
 </root>

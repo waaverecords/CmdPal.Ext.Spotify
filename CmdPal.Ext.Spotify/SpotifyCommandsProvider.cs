@@ -9,15 +9,15 @@ namespace CmdPal.Ext.Spotify;
 public partial class SpotifyCommandsProvider : CommandProvider
 {
     private readonly CommandItem _command;
-    private static readonly SettingsManager _settingsManager = new();
-    private static readonly SpotifyListPage _spotifyExtensionPage = new(_settingsManager);
+    internal static readonly SettingsManager SettingsManager = new();
+    private static readonly SpotifyListPage _spotifyExtensionPage = new(SettingsManager);
 
     public SpotifyCommandsProvider()
     {
         DisplayName = Resources.ExtensionDisplayName;
         Id = "Spotify";
         Icon = Icons.Spotify;
-        Settings = _settingsManager.Settings;
+        Settings = SettingsManager.Settings;
 
         _command = new CommandItem(_spotifyExtensionPage)
         {

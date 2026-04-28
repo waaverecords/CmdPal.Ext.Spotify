@@ -1,59 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CmdPal.Ext.Spotify.Helpers;
+﻿using CmdPal.Ext.Spotify.Helpers;
 using CmdPal.Ext.Spotify.Properties;
+using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 using SpotifyAPI.Web;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
-namespace CmdPal.Ext.Spotify.Commands;
-
-internal sealed partial class AddToQueueCommand : PlayerCommand<PlayerAddToQueueRequest>
+namespace CmdPal.Ext.Spotify.Commands
 {
-    private object _item;
-
-    private AddToQueueCommand(SpotifyClient spotifyClient, object item) : base(spotifyClient, new PlayerAddToQueueRequest("spotify:track:xxxx"))
+    internal sealed partial class AddToQueueCommand : PlayerCommand<PlayerAddToQueueRequest>
     {
-        _item = item;
-        Name = Resources.ContextMenuResultAddToQueueTitle;
-        Icon = Icons.AddQueue;
-    }
-
-    public AddToQueueCommand(SpotifyClient spotifyClient, FullTrack track) : this(spotifyClient, (object)track)
-    {
-    }
-
-    public AddToQueueCommand(SpotifyClient spotifyClient, SimpleAlbum album) : this(spotifyClient, (object)album)
-    {
-    }
-
-    public override CommandResult Invoke()
-    {
-        // each track is queued sequentially to preserve ordering
-        // UI would be blocked for a while if we weret to wait for all those requests to finish
-        Task.Run(() => EnsureActiveDeviceAsync(InvokeAsync));
-        return CommandResult.Hide();
-    }
-
-    protected override async Task InvokeAsync(IPlayerClient player, PlayerAddToQueueRequest requestParams)
-    {
-        List<string>? uris = null;
-        switch (_item)
+        public AddToQueueCommand(SpotifyClient spotifyClient, PlayerAddToQueueRequest requestParams) : base(spotifyClient, requestParams)
         {
-            case FullTrack track:
-                uris = [track.Uri];
-                break;
+            Name = Resources.ContextMenuResultAddToQueueTitle;
+            Icon = Icons.AddQueue;
+        }
 
-            case SimpleAlbum album:
-                var tracks = await spotifyClient.Albums.GetTracks(album.Id);
-                uris = (await spotifyClient.PaginateAll(tracks)).Select(track => track.Uri).ToList();
-                break;
+        public AddToQueueCommand(SpotifyClient spotifyClient, string uri) : this(spotifyClient, new PlayerAddToQueueRequest(uri))
+        {
+        }
 
-            default: throw new NotImplementedException("Item type not implemented");
-        };
-
-        foreach (var uri in uris)
-            await player.AddToQueue(new PlayerAddToQueueRequest(uri));
+        protected override async Task InvokeAsync(IPlayerClient player, PlayerAddToQueueRequest requestParams)
+        {
+            //await player.AddToQueue(requestParams); 
+            try
+            {
+                if (await spotifyClient.Player.AddToQueue(requestParams))
+                    new ToastStatusMessage(new StatusMessage() {
+                        Message = Resources.ContextMenuResultAddToQueueTitle,
+                        State = MessageState.Success
+                    }).Show();
+                else
+                    throw new InvalidOperationException(Resources.EmptyErrorTitle);
+            }
+            catch (Exception ex)
+            {
+                new ToastStatusMessage(new StatusMessage() {
+                    Message = Resources.ErrorAddToQueueToast,
+                    State = MessageState.Error
+                }).Show();
+                Journal.Append($"{Resources.ResourceManager.GetString("ErrorAddToQueueToast", CultureInfo.InvariantCulture)}: {ex.Message}", label: Journal.Label.Error);
+            }
+        }
     }
 }
